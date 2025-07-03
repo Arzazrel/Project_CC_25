@@ -13,6 +13,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 /**
  * Class to implement a MapReduce word count, the simplest version.
  */
@@ -57,13 +60,40 @@ public class WordCount
     }
 
     /**
+     * function to format the time passed as parameter
+     *
+     * @param millis    time in milliseconds
+     * @return          the time in the correct format
+     */
+    public static String formatDuration(long millis) {
+        long hours = millis / (1000 * 60 * 60);
+        millis %= (1000 * 60 * 60);
+
+        long minutes = millis / (1000 * 60);
+        millis %= (1000 * 60);
+
+        long seconds = millis / 1000;
+        millis %= 1000;
+
+        return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
+    }
+
+    /**
      * main function of the wordcount application.
      *
      * @param args
      * @throws Exception
      */
     public static void main(final String[] args) throws Exception {
-        final Configuration conf = new Configuration();     // create configuration object
+
+        // check the number of argument passed
+        if (args.length < 2) {
+            System.err.println("Usage: WordCount <input path> <output path>");
+            System.exit(-1);
+        }
+        long startTime, endTime, duration;              // var to take the effective execution time
+
+        final Configuration conf = new Configuration(); // create configuration object
         final Job job = new Job(conf, "wordcount");
         job.setJarByClass(WordCount.class);
 
@@ -76,6 +106,60 @@ public class WordCount
         FileInputFormat.addInputPath(job, new Path(args[0]));       // first argument is the input folder
         FileOutputFormat.setOutputPath(job, new Path(args[1]));     // second argument is the output folder
 
-        System.exit(job.waitForCompletion(true) ? 0 : 1);   // wait the end of the job before to exit
+        startTime = System.currentTimeMillis();         // start time
+
+        boolean success = job.waitForCompletion(true);      // wait the end of the job
+
+        endTime = System.currentTimeMillis();           // end time
+        duration = endTime - startTime;                 // time in milliseconds
+
+        // take some statistics and visualize to console
+        if (success)    // if job ended with success
+        {
+            // get some statistics
+            Counters counters = job.getCounters();
+            long mapInputRecords = counters.findCounter(TaskCounter.MAP_INPUT_RECORDS).getValue();
+            long mapOutputRecords = counters.findCounter(TaskCounter.MAP_OUTPUT_RECORDS).getValue();
+            long reduceInputRecords = counters.findCounter(TaskCounter.REDUCE_INPUT_RECORDS).getValue();
+            long reduceOutputRecords = counters.findCounter(TaskCounter.REDUCE_OUTPUT_RECORDS).getValue();
+            long spilledRecords = counters.findCounter(TaskCounter.SPILLED_RECORDS).getValue();
+
+            // print to console statistcs
+            System.out.println("=== Job Statistics ===");
+            System.out.println("Job Name: " + job.getJobName());
+            System.out.println("Job ID: " + job.getJobID());
+            System.out.println("Tracking URL: " + job.getTrackingURL());
+            System.out.println("Map Input Records: " + mapInputRecords);
+            System.out.println("Map Output Records: " + mapOutputRecords);
+            System.out.println("Reduce Input Records: " + reduceInputRecords);
+            System.out.println("Reduce Output Records: " + reduceOutputRecords);
+            System.out.println("Spilled Records: " + spilledRecords);
+            System.out.println("Application time: " + formatDuration(duration));
+
+            // write in a file txt -- see Note 0
+            try (PrintWriter writer = new PrintWriter(new FileWriter("job_stats.txt", true))) {
+                writer.println("=== Job Statistics ===");
+                writer.println("Job Name: " + job.getJobName());
+                writer.println("Job ID: " + job.getJobID());
+                writer.println("Tracking URL: " + job.getTrackingURL());
+                writer.println("Map Input Records: " + mapInputRecords);
+                writer.println("Map Output Records: " + mapOutputRecords);
+                writer.println("Reduce Input Records: " + reduceInputRecords);
+                writer.println("Reduce Output Records: " + reduceOutputRecords);
+                writer.println("Spilled Records: " + spilledRecords);
+                writer.println("Application time: " + formatDuration(duration));
+                writer.println("------------------------------------------");
+            }
+        }
+
+        System.exit(success ? 0 : 1);   // exit
     }
 }
+/*
+NOTE 0:
+    The job_stats.txt file is created in the same directory where you run the Java command (not in HDFS).
+    If the file already exists, the data is appended to the end (FileWriter with true for append mode).
+    The "Tracking URL" field shows you the address to monitor the job from the browser, useful if Hadoop is running in pseudo-distributed mode or on a real cluster.
+
+
+ */
