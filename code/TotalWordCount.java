@@ -107,7 +107,7 @@ public class TotalWordCount
      */
     public static void main(final String[] args) throws Exception {
 
-        String jobName = "wordcount";       // name for the job
+        String jobName = "TotalWordCount";       // name for the job
         // check the number of argument passed
         if (args.length < 2) {
             System.err.println("Usage: WordCount <input path> <output base path> [numRuns]");
@@ -132,7 +132,7 @@ public class TotalWordCount
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = new Job(conf, jobName + "_run_" successfulRuns);
+            final Job job = new Job(conf, jobName + "_run_" + successfulRuns);
             job.setJarByClass(WordCount.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
@@ -207,7 +207,7 @@ public class TotalWordCount
 
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
-        System.out.println("Average execution time: " + formatDuration(averageTime) + " ms");
+        System.out.println("Average execution time: " + formatDuration((long)averageTime) + " ms");
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }
