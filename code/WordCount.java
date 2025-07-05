@@ -140,6 +140,7 @@ public class WordCount
             job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
 
             job.setMapperClass(WordCountMapper.class);      // set mapper
+            job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
             job.setReducerClass(WordCountReducer.class);    // set reducer
 
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
@@ -217,5 +218,9 @@ public class WordCount
 NOTE 0:
     The job_stats.txt file is created in the same directory where you run the Java command (not in HDFS).
     If the file already exists, the data is appended to the end (FileWriter with true for append mode).
-    The "Tracking URL" field shows you the address to monitor the job from the browser, useful if Hadoop is running in pseudo-distributed mode or on a real cluster.
+    The "Tracking URL" field shows you the address to monitor the job from the browser, useful if Hadoop is running in
+    pseudo-distributed mode or on a real cluster.
+NOTE 1:
+    the combiner is normal combiner isn't in-mapper combiner. Hadoop can execute the combiner or not (is optional).
+    If you don't want to set the combiner just comment out the whole line.
  */
