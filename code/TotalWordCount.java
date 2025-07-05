@@ -133,7 +133,7 @@ public class TotalWordCount
 
             final Configuration conf = new Configuration(); // create configuration object
             final Job job = new Job(conf, jobName + "_run_" + successfulRuns);
-            job.setJarByClass(WordCount.class);
+            job.setJarByClass(TotalWordCount.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
             job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
