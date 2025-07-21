@@ -1,0 +1,130 @@
+------------------------------------------
+=== Job Statistics ===
+Date: 19-07-2025 22:52:15
+Job Name: WordCountInMap_run_0
+Job ID: job_1752267498956_0011
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0011/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:58:49.935
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 19-07-2025 23:51:57
+Job Name: WordCountInMap_run_1
+Job ID: job_1752267498956_0012
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0012/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:59:41.568
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 00:50:56
+Job Name: WordCountInMap_run_2
+Job ID: job_1752267498956_0013
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0013/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:58:59.442
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 01:51:22
+Job Name: WordCountInMap_run_3
+Job ID: job_1752267498956_0014
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0014/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 01:00:25.873
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 02:50:57
+Job Name: WordCountInMap_run_4
+Job ID: job_1752267498956_0015
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0015/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:59:35.005
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 03:50:10
+Job Name: WordCountInMap_run_5
+Job ID: job_1752267498956_0016
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0016/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:59:12.937
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 04:49:32
+Job Name: WordCountInMap_run_6
+Job ID: job_1752267498956_0017
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0017/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:59:21.420
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 05:48:45
+Job Name: WordCountInMap_run_7
+Job ID: job_1752267498956_0018
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0018/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:59:13.726
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 06:47:57
+Job Name: WordCountInMap_run_8
+Job ID: job_1752267498956_0019
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0019/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 00:59:11.773
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Date: 20-07-2025 07:49:14
+Job Name: WordCountInMap_run_9
+Job ID: job_1752267498956_0020
+Tracking URL: http://10.1.1.31:8088/proxy/application_1752267498956_0020/
+Map Input Records: 156215
+Map Output Records: 497536
+Reduce Input Records: 497536
+Reduce Output Records: 41788
+Spilled Records: 995072
+Application time: 01:01:17.160
+------------------------------------------

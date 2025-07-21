@@ -169,6 +169,8 @@ public class TotalWordCountInMap
             job.setMapperClass(TotalWordCountMapper.class);     // set mapper
             job.setReducerClass(TotalWordCountReducer.class);   // set reducer
 
+            job.setNumReduceTasks(2);                           // to set the number of the reducer task
+
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
             // Output folder specific for each successful run
