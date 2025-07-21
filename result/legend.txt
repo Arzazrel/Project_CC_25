@@ -1,0 +1,72 @@
+Full legend explaining each counter from Hadoop job log (meaning of each field).
+
+-- File System Counters --> These track I/O operations performed on the local filesystem and HDFS during the job.
+
+FILE: Number of bytes read		-> Total number of bytes read from the local filesystem (e.g., for spills, sorting, temporary files).
+FILE: Number of bytes written		-> Total number of bytes written to the local disk (e.g., intermediate data).
+FILE: Number of read operations		-> Number of read operations on the local file system.
+FILE: Number of large read operations	-> Large sequential read operations from local disk.
+FILE: Number of write operations	-> Number of write operations to the local file system.
+HDFS: Number of bytes read		-> Total number of bytes read from HDFS, typically the input files.
+HDFS: Number of bytes written		-> Total number of bytes written to HDFS, usually the final job output.
+HDFS: Number of read operations		-> Total read requests made to HDFS.
+HDFS: Number of large read operations	-> Large read operations from HDFS.
+HDFS: Number of write operations	-> Number of write operations performed on HDFS.
+
+-- Job Counters --> General statistics about the job's execution.
+
+Killed map tasks					-> Number of map tasks that were killed (e.g., due to failures or speculative execution).
+Launched map tasks					-> Total number of map tasks launched.
+Launched reduce tasks					-> Total number of reduce tasks launched.
+Data-local map tasks					-> Number of map tasks that processed data stored on the same node (data locality).
+Total time spent by all maps in occupied slots (ms)	-> Total time map task slots were occupied (in milliseconds).
+Total time spent by all reduces in occupied slots (ms)	-> Total time reduce task slots were occupied.
+Total time spent by all map tasks (ms)			-> Combined runtime of all map tasks.
+Total time spent by all reduce tasks (ms)		-> Combined runtime of all reduce tasks.
+Total vcore-milliseconds taken by all map tasks		-> Total virtual CPU time used by all map tasks (vcores × time).
+Total vcore-milliseconds taken by all reduce tasks	-> Total virtual CPU time used by reduce tasks.
+Total megabyte-milliseconds taken by all map tasks	-> RAM usage over time for all map tasks (used in YARN scheduling).
+Total megabyte-milliseconds taken by all reduce tasks	-> RAM usage over time for all reduce tasks.
+
+-- MapReduce Framework Counters --> Core counters from the MapReduce execution engine.
+
+Map input records			-> Number of records fed into the mapper.
+Map output records			-> Number of records emitted by the mapper.
+Map output bytes			-> Size in bytes of all mapper output.
+Map output materialized bytes		-> Bytes actually written to disk after sorting/spilling.
+Input split bytes			-> Total bytes of input split metadata.
+Combine input records			-> Records read by a combiner (if used).
+Combine output records			-> Records output by a combiner.
+Reduce input groups			-> Number of unique keys received by the reducer (i.e., grouped inputs).
+Reduce shuffle bytes			-> Total number of bytes shuffled from mappers to reducers.
+Reduce input records			-> Total records sent to the reducer (across all keys).
+Reduce output records			-> Records emitted by the reducer as final output.
+Spilled Records				-> Number of records temporarily written to disk due to memory constraints.
+Shuffled Maps				-> Number of mapper outputs fetched by the reducers.
+Failed Shuffles				-> Number of shuffle attempts that failed.
+Merged Map outputs			-> Mapper output files that were successfully merged during shuffle.
+GC time elapsed (ms)			-> Total time spent in Java garbage collection.
+CPU time spent (ms)			-> Total actual CPU processing time.
+Physical memory (bytes) snapshot	-> Total physical memory usage (RAM) at the snapshot time.
+Virtual memory (bytes) snapshot		-> Total virtual memory used (includes RAM + swap + reserved memory).
+Total committed heap usage (bytes)	-> Heap memory committed by all tasks combined.
+Peak Map Physical memory (bytes)	-> Maximum physical memory used by any single map task.
+Peak Map Virtual memory (bytes)		-> Maximum virtual memory used by any map task.
+Peak Reduce Physical memory (bytes)	-> Maximum physical memory used by any reduce task.
+Peak Reduce Virtual memory (bytes)	-> Maximum virtual memory used by any reduce task.
+
+-- Shuffle Errors --
+BAD_ID		-> Invalid or corrupted map task ID received during shuffle.
+CONNECTION	-> Network connection errors during shuffle phase.
+IO_ERROR	-> Input/output errors during shuffle.
+WRONG_LENGTH	-> Data block received had an unexpected size.
+WRONG_MAP	-> Reducer received data from an unexpected mapper.
+WRONG_REDUCE	-> Data sent to an incorrect reducer.
+
+-- File Input Format Counters --
+
+Bytes Read	-> Total number of bytes read by the job from input files via the configured input format.
+
+-- File Output Format Counters --
+
+Bytes Written	-> Total bytes written to output files via the configured output format.
