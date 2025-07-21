@@ -49,11 +49,17 @@ public class WordCountInMap
         // map function
         public void map(final Object key, final Text value, final Context context)
                 throws IOException, InterruptedException {
-            final StringTokenizer itr = new StringTokenizer(value.toString());  // split the given input text line into tokens
-            // iterate over each token obtained from the line
-            while (itr.hasMoreTokens()) {
-                String token = itr.nextToken();     // take the word
-                wordCountMap.put(token, wordCountMap.getOrDefault(token, 0) + 1);
+            String[] words = value.toString()
+                    .toLowerCase()
+                    .replaceAll("[^a-zA-Z0-9\\s]", "")  // removes punctuation
+                    .split("\\s+");                     // split the given input text line into words
+
+            for (int i = 0; i < words.length; i++)      // iterate over each word obtained from the line
+            {
+                if (!words[i].isEmpty())    // check if the current word is not empty
+                {
+                    wordCountMap.put(words[i], wordCountMap.getOrDefault(word, 0) + 1); // set or update the value per the current word
+                }
             }
 
             if (isMemoryThresholdExceeded())    // check the used memory
@@ -191,6 +197,8 @@ public class WordCountInMap
             //job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
             job.setReducerClass(WordCountReducer.class);    // set reducer
 
+            //job.setNumReduceTasks(2);                       // to set the number of the reducer task
+
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
             // Output folder specific for each successful run
@@ -223,7 +231,8 @@ public class WordCountInMap
                 System.out.println("Date: " + getCurrentDateTime());
                 System.out.println("Job Name: " + job.getJobName());
                 System.out.println("Job ID: " + job.getJobID());
-                System.out.println("Tracking URL: " + job.getTrackingURL());
+                String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
+                System.out.println("Tracking URL: " + trackingUrl);
                 System.out.println("Map Input Records: " + mapInputRecords);
                 System.out.println("Map Output Records: " + mapOutputRecords);
                 System.out.println("Reduce Input Records: " + reduceInputRecords);
@@ -238,7 +247,7 @@ public class WordCountInMap
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
-                    writer.println("Tracking URL: " + job.getTrackingURL());
+                    writer.println("Tracking URL: " + trackingUrl);
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);

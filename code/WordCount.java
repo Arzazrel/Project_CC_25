@@ -36,11 +36,18 @@ public class WordCount
         // map function
         public void map(final Object key, final Text value, final Context context)
                 throws IOException, InterruptedException {
-            final StringTokenizer itr = new StringTokenizer(value.toString());  // split the given input text line into tokens
-            // iterate over each token obtained from the line
-            while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken());      // set the var text with the current word (token)
-                context.write(word, one);       // emit the pair (key,value)
+            String[] words = value.toString()
+                    .toLowerCase()
+                    .replaceAll("[^a-zA-Z0-9\\s]", "")  // removes punctuation
+                    .split("\\s+");                     // split the given input text line into words
+
+            for (int i = 0; i < words.length; i++)      // iterate over each word obtained from the line
+            {
+                if (!words[i].isEmpty())    // check if the current word is not empty
+                {
+                    word.set(words[i]);         // set the var text with the current word
+                    context.write(word, one);   // emit the pair (key,value)
+                }
             }
         }
     }
@@ -140,8 +147,10 @@ public class WordCount
             job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
 
             job.setMapperClass(WordCountMapper.class);      // set mapper
-            job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
+            //job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
             job.setReducerClass(WordCountReducer.class);    // set reducer
+
+            //job.setNumReduceTasks(2);                       // to set the number of the reducer task
 
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
@@ -175,7 +184,8 @@ public class WordCount
                 System.out.println("Date: " + getCurrentDateTime());
                 System.out.println("Job Name: " + job.getJobName());
                 System.out.println("Job ID: " + job.getJobID());
-                System.out.println("Tracking URL: " + job.getTrackingURL());
+                String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
+                System.out.println("Tracking URL: " + trackingUrl);
                 System.out.println("Map Input Records: " + mapInputRecords);
                 System.out.println("Map Output Records: " + mapOutputRecords);
                 System.out.println("Reduce Input Records: " + reduceInputRecords);
@@ -190,7 +200,7 @@ public class WordCount
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
-                    writer.println("Tracking URL: " + job.getTrackingURL());
+                    writer.println("Tracking URL: " + trackingUrl);
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);
@@ -209,7 +219,7 @@ public class WordCount
 
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
-        System.out.println("Average execution time: " + formatDuration((long)averageTime) + " ms");
+        System.out.println("Average execution time: " + formatDuration((long)averageTime));
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }

@@ -153,6 +153,8 @@ public class CoOccurrencePairs
             //job.setCombinerClass(CoOccurrenceReducer.class);  // set combiner -> See NOTE 1
             job.setReducerClass(CoOccurrenceReducer.class);     // set reducer
 
+            //job.setNumReduceTasks(2);                       // to set the number of the reducer task
+
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
             // Output folder specific for each successful run
@@ -219,7 +221,7 @@ public class CoOccurrencePairs
 
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
-        System.out.println("Average execution time: " + formatDuration((long)averageTime) + " ms");
+        System.out.println("Average execution time: " + formatDuration((long)averageTime));
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }
