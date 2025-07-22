@@ -1,7 +1,6 @@
 package it.unipi.hadoop;
 
 import java.io.IOException;
-import java.util.StringTokenizer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -32,7 +31,7 @@ public class CoOccurrencePairs
     /**
      * Mapper class for implement the map logic for the CoOccurrence count
      */
-    public static class CoOccurrenceMapper extends Mapper<Object, Text, Text, IntWritable>
+    public static class CoOccurrenceMapper extends Mapper<LongWritable, Text, Text, IntWritable>
     {
         private final static IntWritable ONE = new IntWritable(1);  // the value for each pairs
         private Text pair = new Text();                             // var to contain the key for each pair (word1,word2)
@@ -49,6 +48,8 @@ public class CoOccurrencePairs
             {
                 String w1 = words[i];           // take the current word
                 String w2 = words[i + 1];       // take the next word
+                if (w1.isEmpty() || w2.isEmpty())   // control check for the key
+                    continue;
                 pair.set(w1 + "," + w2);        // create the key = (current word,next word)
                 context.write(pair, ONE);       // emit key-value pairs
             }
@@ -143,7 +144,7 @@ public class CoOccurrencePairs
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = new Job(conf, jobName + "_run_" + successfulRuns);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
             job.setJarByClass(CoOccurrencePairs.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer

@@ -10,6 +10,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -22,23 +23,20 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 /**
- * Class to implement a MapReduce word count, the in-mapping combining version.
- * In this version we will do local aggregation in the mapper, there will be an associative array that will be used to
- * keep the current occurrence for each word found so as to update the name at each iteration without emitting a key
- * and value each time (with value = 1). In practice you have to be careful about memory management, in this
- * implementation there will be control that 80% of usage is not exceeded.
+ * Class to implement a MapReduce CoOccurrence count, the pairs version.
+ *
  */
-public class WordCountInMap
+public class CoOccurrencePairsInMap
 {
     /**
-     * Mapper class for implement the map logic for the word count
+     * Mapper class for implement the map logic for the CoOccurrence count
      */
-    public static class WordCountMapper extends Mapper<Object, Text, Text, IntWritable>
+    public static class CoOccurrenceMapper extends Mapper<LongWritable, Text, Text, IntWritable>
     {
         private HashMap<String, Integer> wordCountMap;              // hash map to contain word occurrences
         private static final double MEMORY_THRESHOLD = 0.8;         // maximum usable memory threshold (80%)
         private final IntWritable countWritable = new IntWritable();// var to set the value to associate with the found words
-        private final Text word = new Text();                       // var which will contain the word that will be used as the key
+        private final Text word = new Text();                       // var which will contain the key for each pair (word1,word2)
 
         // to initialize the data structures used fo in mapping
         protected void setup(Context context) throws IOException, InterruptedException {
@@ -46,19 +44,21 @@ public class WordCountInMap
         }
 
         // map function
-        public void map(final Object key, final Text value, final Context context)
+        protected void map(LongWritable key, Text value, Context context)
                 throws IOException, InterruptedException {
             String[] words = value.toString()
-                    .toLowerCase()
-                    .replaceAll("[^a-zA-Z0-9\\s]", "")  // removes punctuation
-                    .split("\\s+");                     // split the given input text line into words
-
-            for (int i = 0; i < words.length; i++)      // iterate over each word obtained from the line
+                                  .toLowerCase()
+                                  .replaceAll("[^a-zA-Z0-9\\s]", "")    // removes punctuation
+                                  .split("\\s+");                       // split the given input text line into words
+            
+            for (int i = 0; i < words.length - 1; i++)          // iterate over each word obtained from the line
             {
-                if (!words[i].isEmpty())    // check if the current word is not empty
-                {
-                    wordCountMap.put(words[i], wordCountMap.getOrDefault(word, 0) + 1); // set or update the value per the current word
-                }
+                String w1 = words[i];           // take the current word
+                String w2 = words[i + 1];       // take the next word
+                if (w1.isEmpty() || w2.isEmpty())   // control check for the key
+                    continue;
+                String pair = w1 + "," + w2;    // create the key = (current word,next word)
+                wordCountMap.put(pair, wordCountMap.getOrDefault(pair, 0) + 1); // set or update the value per the current word
             }
 
             if (isMemoryThresholdExceeded())    // check the used memory
@@ -99,9 +99,9 @@ public class WordCountInMap
     }
 
     /**
-     * Reducer class to implement the reduce logic for the word count
+     * Reducer class to implement the reduce logic for the CoOccurrence count
      */
-    public static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public static class CoOccurrenceReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
         private final IntWritable result = new IntWritable();   // var to set the value to associate with the found words
 
         // reduce function
@@ -161,10 +161,10 @@ public class WordCountInMap
      */
     public static void main(final String[] args) throws Exception {
 
-        String jobName = "WordCountInMap";       // name for the job
+        String jobName = "CoOccurrencePairsInMap";   // name for the job
         // check the number of argument passed
         if (args.length < 2) {
-            System.err.println("Usage: WordCountInMap <input path> <output base path> [numRuns]");
+            System.err.println("Usage: CoOccurrencePairs <input path> <output base path> [numRuns]");
             System.exit(-1);
         }
         String inputPath = args[0];         // take the input folder
@@ -186,15 +186,14 @@ public class WordCountInMap
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = new Job(conf, jobName + "_run_" + successfulRuns);
-            job.setJarByClass(WordCountInMap.class);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
+            job.setJarByClass(CoOccurrencePairsInMap.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
             job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
 
-            job.setMapperClass(WordCountMapper.class);      // set mapper
-            //job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
-            job.setReducerClass(WordCountReducer.class);    // set reducer
+            job.setMapperClass(CoOccurrenceMapper.class);       // set mapper
+            job.setReducerClass(CoOccurrenceReducer.class);     // set reducer
 
             //job.setNumReduceTasks(2);                       // to set the number of the reducer task
 
@@ -230,8 +229,7 @@ public class WordCountInMap
                 System.out.println("Date: " + getCurrentDateTime());
                 System.out.println("Job Name: " + job.getJobName());
                 System.out.println("Job ID: " + job.getJobID());
-                String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
-                System.out.println("Tracking URL: " + trackingUrl);
+                System.out.println("Tracking URL: " + job.getTrackingURL());
                 System.out.println("Map Input Records: " + mapInputRecords);
                 System.out.println("Map Output Records: " + mapOutputRecords);
                 System.out.println("Reduce Input Records: " + reduceInputRecords);
@@ -246,7 +244,7 @@ public class WordCountInMap
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
-                    writer.println("Tracking URL: " + trackingUrl);
+                    writer.println("Tracking URL: " + job.getTrackingURL());
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);
@@ -265,7 +263,7 @@ public class WordCountInMap
 
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
-        System.out.println("Average execution time: " + formatDuration((long)averageTime) + " ms");
+        System.out.println("Average execution time: " + formatDuration((long)averageTime));
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }
@@ -276,7 +274,4 @@ NOTE 0:
     If the file already exists, the data is appended to the end (FileWriter with true for append mode).
     The "Tracking URL" field shows you the address to monitor the job from the browser, useful if Hadoop is running in
     pseudo-distributed mode or on a real cluster.
-NOTE 1:
-    the combiner is normal combiner isn't in-mapper combiner. Hadoop can execute the combiner or not (is optional).
-    If you don't want to set the combiner just comment out the whole line.
  */
