@@ -3,11 +3,14 @@ package it.unipi.hadoop;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -15,57 +18,109 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.Counters;
 import org.apache.hadoop.mapreduce.TaskCounter;
+import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.io.Writable;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
 /**
- * Class to implement a MapReduce word count, the simplest version.
+ * Class to implement a MapReduce CoOccurrence count, the stripes version.
+ *
  */
-public class WordCount
+public class CoOccurrenceStripes
 {
     /**
-     * Mapper class for implement the map logic for the word count
+     * Mapper class for implement the map logic for the CoOccurrence count
      */
-    public static class WordCountMapper extends Mapper<Object, Text, Text, IntWritable>
+    public static class CoOccurrenceMapper extends Mapper<LongWritable, Text, Text, MapWritable>
     {
-        private final static IntWritable one = new IntWritable(1);  // var to set the value to associate with the found words
-        private final Text word = new Text();       // var which will contain the word that will be used as the key
-
         // map function
-        public void map(final Object key, final Text value, final Context context)
+        protected void map(LongWritable key, Text value, Context context)
                 throws IOException, InterruptedException {
-            String[] words = value.toString()
-                    .toLowerCase()
-                    .replaceAll("[^a-zA-Z0-9\\s]", "")  // removes punctuation
-                    .split("\\s+");                     // split the given input text line into words
+            HashMap<String, MapWritable> wordSeenMap = new HashMap<>(); // hash map to contain the words already seen
 
-            for (int i = 0; i < words.length; i++)      // iterate over each word obtained from the line
+            String[] words = value.toString()
+                                  .toLowerCase()
+                                  .replaceAll("[^a-zA-Z0-9\\s]", "")    // removes punctuation
+                                  .split("\\s+");                       // split the given input text line into words
+
+            if (words.length < 2)   // check for record withs size less than the window of N-gram (in this case 2-gram)
+                return;
+
+            for (int i = 0; i < words.length - 1; i++)      // iterate over each word obtained from the line
             {
-                if (!words[i].isEmpty())    // check if the current word is not empty
+                String w1 = words[i];                           // take the current word
+                String w2 = words[i + 1];                       // take the next word
+                if (w1.isEmpty() || w2.isEmpty())               // control check for the key
+                    continue;
+
+                if (!wordSeenMap.containsKey(w1))   // check if the current word has it already been seen or not
+                    wordSeenMap.put(w1, new MapWritable());     // set the stripes for the new word
+
+                // update the value for the co-occurrence
+                MapWritable stripe = wordSeenMap.get(w1);       // get stripe for the current word
+                Text neighbor = new Text(w2);                   // neighbour of the current word
+
+                if (stripe.containsKey(neighbor))       // neighbor already seen, value must be updated
                 {
-                    word.set(words[i]);         // set the var text with the current word
-                    context.write(word, one);   // emit the pair (key,value)
+                    IntWritable count = (IntWritable) stripe.get(neighbor); // get old occurrence
+                    count.set(count.get() + 1);                             // update occurrence
                 }
+                else                                    // new neighbor
+                {
+                    stripe.put(neighbor, new IntWritable(1));
+                }
+            }
+
+            // now emit all the word and associated stripes
+            for (Map.Entry<String, MapWritable> entry : wordSeenMap.entrySet()) {
+                Text word = new Text(entry.getKey());              // get key (word)
+                MapWritable stripe = entry.getValue();             // get stripe
+                context.write(word, stripe);                       // emit (word, stripe)
             }
         }
     }
 
     /**
-     * Reducer class to implement the reduce logic for the word count
+     * Reducer class to implement the reduce logic for the CoOccurrence count
      */
-    public static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-        private final IntWritable result = new IntWritable();   // var to set the value to associate with the found words
-
+    public static class CoOccurrenceReducer extends Reducer<Text, MapWritable, Text, Text> {
         // reduce function
-        public void reduce(final Text key, final Iterable<IntWritable> values, final Context context)
+        protected void reduce(Text key, Iterable<MapWritable> values, Context context)
                 throws IOException, InterruptedException {
-            int sum = 0;                            // var to the sum of the values associated to keys
-            for (final IntWritable val : values) {
-                sum += val.get();                   // update sum
+            MapWritable aggregateMap = new MapWritable();       // define aggregate map for
+
+            for (MapWritable map : values)              // for each stripes associated to a word
+            {
+                for (Writable k : map.keySet())         // for each neighbour in the stripe
+                {
+                    IntWritable count = (IntWritable) map.get(k);               // get local occurrence
+                    IntWritable existing = (IntWritable) aggregateMap.get(k);   // get total occurrence
+
+                    if (existing != null)           // this pair of words has been found before
+                        existing.set(existing.get() + count.get());             // update total occurrence
+                    else                            // this pair of words has not been found before
+                        aggregateMap.put(k, new IntWritable(count.get()));      // set (first time) the total occurrence
+                }
             }
-            result.set(sum);                // set the result with sum
-            context.write(key, result);     // emit
+
+            context.write(key, new Text(mapWritableToString(aggregateMap)));    // emit word and aggregate stripe associated
+        }
+
+        // utility function to format stripes into a readable string
+        public static String mapWritableToString(MapWritable map)
+        {
+            StringBuilder sb = new StringBuilder();     // the builder for the output string
+
+            for (Map.Entry<Writable, Writable> entry : map.entrySet())      // get all the word and occurrence
+            {
+                Text key = (Text) entry.getKey();                           // get the neighbour
+                IntWritable value = (IntWritable) entry.getValue();         // get the occurrence
+                sb.append(key.toString()).append(":").append(value.get()).append(", "); // format the string
+            }
+
+            return sb.toString();                       // return the formatted string
         }
     }
 
@@ -114,10 +169,10 @@ public class WordCount
      */
     public static void main(final String[] args) throws Exception {
 
-        String jobName = "wordcount";       // name for the job
+        String jobName = "CoOccurrenceStripes";     // name for the job
         // check the number of argument passed
         if (args.length < 2) {
-            System.err.println("Usage: WordCount <input path> <output base path> [numRuns]");
+            System.err.println("Usage: CoOccurrenceStripes <input path> <output base path> [numRuns]");
             System.exit(-1);
         }
         String inputPath = args[0];         // take the input folder
@@ -139,17 +194,20 @@ public class WordCount
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = new Job(conf, jobName + "_run_" + successfulRuns);
-            job.setJarByClass(WordCount.class);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
+            job.setJarByClass(CoOccurrenceStripes.class);
+
+            job.setMapOutputKeyClass(Text.class);           // set the typer for the output key for mapper
+            job.setMapOutputValueClass(MapWritable.class);  // set the typer for the output value for mapper
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
-            job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
+            job.setOutputValueClass(Text.class);            // set the typer for the output value for reducer
 
-            job.setMapperClass(WordCountMapper.class);      // set mapper
-            //job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
-            job.setReducerClass(WordCountReducer.class);    // set reducer
+            job.setMapperClass(CoOccurrenceMapper.class);       // set mapper
+            //job.setCombinerClass(CoOccurrenceReducer.class);  // set combiner -> See NOTE 1
+            job.setReducerClass(CoOccurrenceReducer.class);     // set reducer
 
-            //job.setNumReduceTasks(2);                       // to set the number of the reducer task
+            //job.setNumReduceTasks(2);                           // to set the number of the reducer task
 
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
@@ -183,8 +241,7 @@ public class WordCount
                 System.out.println("Date: " + getCurrentDateTime());
                 System.out.println("Job Name: " + job.getJobName());
                 System.out.println("Job ID: " + job.getJobID());
-                String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
-                System.out.println("Tracking URL: " + trackingUrl);
+                System.out.println("Tracking URL: " + job.getTrackingURL());
                 System.out.println("Map Input Records: " + mapInputRecords);
                 System.out.println("Map Output Records: " + mapOutputRecords);
                 System.out.println("Reduce Input Records: " + reduceInputRecords);
@@ -199,7 +256,7 @@ public class WordCount
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
-                    writer.println("Tracking URL: " + trackingUrl);
+                    writer.println("Tracking URL: " + job.getTrackingURL());
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);
@@ -218,7 +275,7 @@ public class WordCount
 
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
-        System.out.println("Average execution time: " + formatDuration((long)averageTime));
+        System.out.println("Average execution time: " + formatDuration((long)averageTime) + " ms");
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }

@@ -43,7 +43,10 @@ public class CoOccurrencePairs
                                   .toLowerCase()
                                   .replaceAll("[^a-zA-Z0-9\\s]", "")    // removes punctuation
                                   .split("\\s+");                       // split the given input text line into words
-            
+
+            if (words.length < 2)   // check for record withs size less than the window of N-gram (in this case 2-gram)
+                return;
+
             for (int i = 0; i < words.length - 1; i++)          // iterate over each word obtained from the line
             {
                 String w1 = words[i];           // take the current word

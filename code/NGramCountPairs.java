@@ -3,11 +3,14 @@ package it.unipi.hadoop;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -20,41 +23,51 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 /**
- * Class to implement a MapReduce word count, the simplest version.
+ * Class to implement a MapReduce CoOccurrence count, the pairs version.
+ *
  */
-public class WordCount
+public class NGramCountPairs
 {
     /**
-     * Mapper class for implement the map logic for the word count
+     * Mapper class for implement the map logic for the CoOccurrence count
      */
-    public static class WordCountMapper extends Mapper<Object, Text, Text, IntWritable>
+    public static class NGramCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
     {
-        private final static IntWritable one = new IntWritable(1);  // var to set the value to associate with the found words
-        private final Text word = new Text();       // var which will contain the word that will be used as the key
+        private final static IntWritable ONE = new IntWritable(1);  // the value for each pairs
+        private Text pair = new Text();                             // var to contain the key (word1,word2,...,wordN-1)
+        private int window = 2;                                     // var to contain the window size
+
+
+        // to take the window size from configuration
+        protected void setup(Context context) throws IOException, InterruptedException {
+            Configuration conf = context.getConfiguration();    // retrieve configuration object
+            window = conf.getInt("window",2);                   // get the configuration to contain the N of N-Gram (default value is 2)
+        }
 
         // map function
-        public void map(final Object key, final Text value, final Context context)
+        protected void map(LongWritable key, Text value, Context context)
                 throws IOException, InterruptedException {
             String[] words = value.toString()
-                    .toLowerCase()
-                    .replaceAll("[^a-zA-Z0-9\\s]", "")  // removes punctuation
-                    .split("\\s+");                     // split the given input text line into words
-
-            for (int i = 0; i < words.length; i++)      // iterate over each word obtained from the line
+                                  .toLowerCase()
+                                  .replaceAll("[^a-zA-Z0-9\\s]", "")    // removes punctuation
+                                  .split("\\s+");                       // split the given input text line into words
+            
+            for (int i = 0; i < (words.length - (window - 1)); i++)          // iterate over each word obtained from the line
             {
-                if (!words[i].isEmpty())    // check if the current word is not empty
-                {
-                    word.set(words[i]);         // set the var text with the current word
-                    context.write(word, one);   // emit the pair (key,value)
-                }
+                String w1 = words[i];           // take the current word
+                String w2 = words[i + 1];       // take the next word
+                if (w1.isEmpty() || w2.isEmpty())   // control check for the key
+                    continue;
+                pair.set(w1 + "," + w2);        // create the key = (current word,next word)
+                context.write(pair, ONE);       // emit key-value pairs
             }
         }
     }
 
     /**
-     * Reducer class to implement the reduce logic for the word count
+     * Reducer class to implement the reduce logic for the CoOccurrence count
      */
-    public static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public static class NGramCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
         private final IntWritable result = new IntWritable();   // var to set the value to associate with the found words
 
         // reduce function
@@ -114,20 +127,27 @@ public class WordCount
      */
     public static void main(final String[] args) throws Exception {
 
-        String jobName = "wordcount";       // name for the job
+        String jobName = "NGramCountPairs";   // name for the job
         // check the number of argument passed
         if (args.length < 2) {
-            System.err.println("Usage: WordCount <input path> <output base path> [numRuns]");
+            System.err.println("Usage: NGramCountPairs <input path> <output base path> [window(N)] [numRuns]");
             System.exit(-1);
         }
         String inputPath = args[0];         // take the input folder
         String outputBasePath = args[1];    // take base output folder
 
-        int numRunsRequested = 1;           // default value for the run
-        if (args.length >= 3)               // check if the user entered the third argument
+        int window = 1;                     // default value for the window, that
+        if (args.length >= 3)               // check if the user entered the fourth argument
         {
-            numRunsRequested = Integer.parseInt(args[2]);   // take the number of runs to do
+            window = Integer.parseInt(args[2]);     // take the number indicates the size of the window
         }
+
+        int numRunsRequested = 1;           // default value for the run
+        if (args.length >= 4)               // check if the user entered the third argument
+        {
+            numRunsRequested = Integer.parseInt(args[3]);   // take the number of runs to do
+        }
+
         // var to manage the runs
         int successfulRuns = 0;             // run successfully completed
         long totalTime = 0;                 // total time used to perform all the runs of the job
@@ -139,15 +159,16 @@ public class WordCount
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = new Job(conf, jobName + "_run_" + successfulRuns);
-            job.setJarByClass(WordCount.class);
+            conf.setInt("window",window);                   // set the configuration to contain the N of N-Gram
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
+            job.setJarByClass(NGramCountPairs.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
             job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
 
-            job.setMapperClass(WordCountMapper.class);      // set mapper
-            //job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
-            job.setReducerClass(WordCountReducer.class);    // set reducer
+            job.setMapperClass(NGramCountMapper.class);         // set mapper
+            //job.setCombinerClass(NGramCountReducer.class);    // set combiner -> See NOTE 1
+            job.setReducerClass(NGramCountReducer.class);       // set reducer
 
             //job.setNumReduceTasks(2);                       // to set the number of the reducer task
 
@@ -183,8 +204,7 @@ public class WordCount
                 System.out.println("Date: " + getCurrentDateTime());
                 System.out.println("Job Name: " + job.getJobName());
                 System.out.println("Job ID: " + job.getJobID());
-                String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
-                System.out.println("Tracking URL: " + trackingUrl);
+                System.out.println("Tracking URL: " + job.getTrackingURL());
                 System.out.println("Map Input Records: " + mapInputRecords);
                 System.out.println("Map Output Records: " + mapOutputRecords);
                 System.out.println("Reduce Input Records: " + reduceInputRecords);
@@ -199,7 +219,7 @@ public class WordCount
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
-                    writer.println("Tracking URL: " + trackingUrl);
+                    writer.println("Tracking URL: " + job.getTrackingURL());
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);

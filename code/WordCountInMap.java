@@ -33,7 +33,7 @@ public class WordCountInMap
     /**
      * Mapper class for implement the map logic for the word count
      */
-    public static class WordCountMapper extends Mapper<Object, Text, Text, IntWritable>
+    public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
     {
         private HashMap<String, Integer> wordCountMap;              // hash map to contain word occurrences
         private static final double MEMORY_THRESHOLD = 0.8;         // maximum usable memory threshold (80%)
@@ -46,7 +46,7 @@ public class WordCountInMap
         }
 
         // map function
-        public void map(final Object key, final Text value, final Context context)
+        public void map(final LongWritable key, final Text value, final Context context)
                 throws IOException, InterruptedException {
             String[] words = value.toString()
                     .toLowerCase()
@@ -57,7 +57,7 @@ public class WordCountInMap
             {
                 if (!words[i].isEmpty())    // check if the current word is not empty
                 {
-                    wordCountMap.put(words[i], wordCountMap.getOrDefault(word, 0) + 1); // set or update the value per the current word
+                    wordCountMap.put(words[i], wordCountMap.getOrDefault(words[i], 0) + 1); // set or update the value per the current word
                 }
             }
 
@@ -186,7 +186,7 @@ public class WordCountInMap
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = new Job(conf, jobName + "_run_" + successfulRuns);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
             job.setJarByClass(WordCountInMap.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
