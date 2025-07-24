@@ -10,6 +10,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -18,6 +19,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.Counters;
 import org.apache.hadoop.mapreduce.TaskCounter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -48,10 +50,13 @@ public class WordCountInMap
         // map function
         public void map(final LongWritable key, final Text value, final Context context)
                 throws IOException, InterruptedException {
-            String[] words = value.toString()
-                    .toLowerCase()
-                    .replaceAll("[^a-zA-Z0-9\\s]", "")  // removes punctuation
-                    .split("\\s+");                     // split the given input text line into words
+            String[] words = value.toString().toLowerCase()
+                    .replaceAll("[^\\p{L}0-9\\s'-]", " ")           // removes unwanted characters, keeps only letters, numbers and ',-
+                    .replaceAll("(?<=\\s)['-]+|[\'-]+(?=\\s)", " ") // removes isolated '-' or ''' between spaces
+                    .replaceAll("(^|\\s)['-]+", " ")                // removes '-' or ''' at the beginning of the word
+                    .replaceAll("[-']+(\\s|$)", " ")                // removes '-' or ''' at the end of the word
+                    .trim()                                         // removes leading and trailing whitespace
+                    .split("\\s+");                                 // splits the string into an array of words, using one or more consecutive whitespace as separators.
 
             for (int i = 0; i < words.length; i++)      // iterate over each word obtained from the line
             {
@@ -85,7 +90,7 @@ public class WordCountInMap
             return usedMemory >= memoryLimit;       // check if the current used memory exceeds the threshold
         }
 
-        // function to emit the data collected and flus the memory
+        // function to emit the data collected and flush the memory
         private void flush(Context context) throws IOException, InterruptedException {
             // I loop through the entire contents of the hasmap and output the key-values (word-occurrence) stored inside and then free the hashmap.
             for (Map.Entry<String, Integer> entry : wordCountMap.entrySet()) {
@@ -156,25 +161,57 @@ public class WordCountInMap
      * useful for testing. In the output data folder a different subfolder will be generated for each job run executed,
      * at the end of the name there will be the number related to the job to distinguish the different outputs.
      *
-     * @param args          <input path> <output base path> [numRuns]
+     * @param args          <input path> <output base path> [numRuns] [numReducer]
      * @throws Exception
      */
     public static void main(final String[] args) throws Exception {
 
-        String jobName = "WordCountInMap";       // name for the job
+        String jobName = "WordCountInMap";      // name for the job
+        String statsFileName = "job_stats.txt"; // name for the file containing the printed statistics of the jobs
         // check the number of argument passed
         if (args.length < 2) {
-            System.err.println("Usage: WordCountInMap <input path> <output base path> [numRuns]");
+            System.err.println("Usage: " + jobName + " <input path> <output base path> [numRuns] [numReducer]");
             System.exit(-1);
         }
+        // ---- take all the argument ----
         String inputPath = args[0];         // take the input folder
         String outputBasePath = args[1];    // take base output folder
-
+        // -- get te number of runs to do --
         int numRunsRequested = 1;           // default value for the run
         if (args.length >= 3)               // check if the user entered the third argument
         {
-            numRunsRequested = Integer.parseInt(args[2]);   // take the number of runs to do
+            try {
+                numRunsRequested = Integer.parseInt(args[2]);   // take the number of runs to do
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid num of runs: " + args[2]);
+                System.exit(-1);
+            }
+
+            if (numRunsRequested <= 0)              // check for the num of the runs to do
+            {
+                System.err.println("Num of runs to do must be >= 1");
+                System.exit(-1);
+            }
         }
+        // -- get the number of reducer --
+        int numReducer = 1;             // default value for the num of the reducer
+        if (args.length >= 4)           // check if the user entered the fourth argument
+        {
+            try {
+                numReducer = Integer.parseInt(args[3]);     // take the number of reducer task to execute
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid num of reducer: " + args[3]);
+                System.exit(-1);
+            }
+
+            if (numReducer <= 0)                            // check for the num of the runs to do
+            {
+                System.err.println("Num of reducer to do must be >= 1");
+                System.exit(-1);
+            }
+        }
+
+        // ---- instantiates and executes jobs ----
         // var to manage the runs
         int successfulRuns = 0;             // run successfully completed
         long totalTime = 0;                 // total time used to perform all the runs of the job
@@ -186,17 +223,15 @@ public class WordCountInMap
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns + "_red_" + numReducer);
             job.setJarByClass(WordCountInMap.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
             job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
 
-            job.setMapperClass(WordCountMapper.class);      // set mapper
-            //job.setCombinerClass(WordCountReducer.class);   // set combiner -> See NOTE 1
-            job.setReducerClass(WordCountReducer.class);    // set reducer
-
-            //job.setNumReduceTasks(2);                       // to set the number of the reducer task
+            job.setMapperClass(WordCountMapper.class);          // set mapper
+            job.setReducerClass(WordCountReducer.class);        // set reducer
+            job.setNumReduceTasks(numReducer);                  // to set the number of the reducer task
 
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
@@ -240,13 +275,20 @@ public class WordCountInMap
                 System.out.println("Application time: " + formatDuration(duration));
 
                 // write in a file txt -- see Note 0
-                try (PrintWriter writer = new PrintWriter(new FileWriter("job_stats.txt", true))) {
+                try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
                     writer.println("------------------------------------------");
                     writer.println("=== Job Statistics ===");
+                    writer.println("Identifiers:");
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
                     writer.println("Tracking URL: " + trackingUrl);
+                    writer.println("Parameters:");
+                    writer.println("Input Path: " + inputPath);
+                    writer.println("Output Path: " + outputPath);
+                    writer.println("Num Reducers: " + numReducer);
+                    writer.println("Run Attempt: " + attempt);
+                    writer.println("Data:");
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);
@@ -265,7 +307,23 @@ public class WordCountInMap
 
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
-        System.out.println("Average execution time: " + formatDuration((long)averageTime) + " ms");
+        System.out.println("Average execution time: " + formatDuration((long)averageTime));
+        System.out.println("Statistics written to: " + new File(statsFileName).getAbsolutePath());
+
+        // write in a file txt -- see Note 0
+        try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
+            writer.println("------------------------------------------");
+            writer.println("=== Final Recap of Runs for " + jobName + " ===");
+            writer.println("Run:");
+            writer.println("Requested run: " + numRunsRequested);
+            writer.println("Successfull run: " + successfulRuns);
+            writer.println("Total attempt run: " + attempt);
+            writer.println("Failed run: " + (attempt - successfulRuns));
+            writer.println("Time:");
+            writer.println("Total execution time: " + formatDuration(totalTime));
+            writer.println("Average execution time: " + formatDuration((long)averageTime));
+            writer.println("------------------------------------------");
+        }
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }
@@ -276,7 +334,4 @@ NOTE 0:
     If the file already exists, the data is appended to the end (FileWriter with true for append mode).
     The "Tracking URL" field shows you the address to monitor the job from the browser, useful if Hadoop is running in
     pseudo-distributed mode or on a real cluster.
-NOTE 1:
-    the combiner is normal combiner isn't in-mapper combiner. Hadoop can execute the combiner or not (is optional).
-    If you don't want to set the combiner just comment out the whole line.
  */

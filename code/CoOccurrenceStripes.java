@@ -21,6 +21,7 @@ import org.apache.hadoop.mapreduce.TaskCounter;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Writable;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -31,19 +32,21 @@ import java.io.PrintWriter;
 public class CoOccurrenceStripes
 {
     /**
-     * Mapper class for implement the map logic for the CoOccurrence count
+     * Mapper class for implement the map logic for the CoOccurrence count (vers. stripes)
      */
     public static class CoOccurrenceMapper extends Mapper<LongWritable, Text, Text, MapWritable>
     {
         // map function
-        protected void map(LongWritable key, Text value, Context context)
+        protected void map(final LongWritable key,final Text value,final Context context)
                 throws IOException, InterruptedException {
             HashMap<String, MapWritable> wordSeenMap = new HashMap<>(); // hash map to contain the words already seen
-
-            String[] words = value.toString()
-                                  .toLowerCase()
-                                  .replaceAll("[^a-zA-Z0-9\\s]", "")    // removes punctuation
-                                  .split("\\s+");                       // split the given input text line into words
+            String[] words = value.toString().toLowerCase()
+                    .replaceAll("[^\\p{L}0-9\\s'-]", " ")           // removes unwanted characters, keeps only letters, numbers and ',-
+                    .replaceAll("(?<=\\s)['-]+|[\'-]+(?=\\s)", " ") // removes isolated '-' or ''' between spaces
+                    .replaceAll("(^|\\s)['-]+", " ")                // removes '-' or ''' at the beginning of the word
+                    .replaceAll("[-']+(\\s|$)", " ")                // removes '-' or ''' at the end of the word
+                    .trim()                                         // removes leading and trailing whitespace
+                    .split("\\s+");                                 // splits the string into an array of words, using one or more consecutive whitespace as separators.
 
             if (words.length < 2)   // check for record withs size less than the window of N-gram (in this case 2-gram)
                 return;
@@ -64,8 +67,9 @@ public class CoOccurrenceStripes
 
                 if (stripe.containsKey(neighbor))       // neighbor already seen, value must be updated
                 {
-                    IntWritable count = (IntWritable) stripe.get(neighbor); // get old occurrence
-                    count.set(count.get() + 1);                             // update occurrence
+                    IntWritable countWritable = (IntWritable) stripe.get(neighbor); // get old occurrence
+                    int count = countWritable.get();
+                    stripe.put(neighbor, new IntWritable(count + 1));               // update occurrence
                 }
                 else                                    // new neighbor
                 {
@@ -77,19 +81,52 @@ public class CoOccurrenceStripes
             for (Map.Entry<String, MapWritable> entry : wordSeenMap.entrySet()) {
                 Text word = new Text(entry.getKey());              // get key (word)
                 MapWritable stripe = entry.getValue();             // get stripe
-                context.write(word, stripe);                       // emit (word, stripe)
+                context.write(word, new MapWritable(stripe));      // emit (word, stripe)
             }
         }
     }
 
     /**
-     * Reducer class to implement the reduce logic for the CoOccurrence count
+     * Combiner class to implement the reduce logic for the CoOccurrence count (vers. stripes)
+     * A purpose-built combiner is created and the reducer is not used because otherwise the combiner's output would not
+     * be in the same format as the reducer's input.
+     * This is because the reducer outputs (text, text) pairs instead of (text, MapWritable) for greater readability.
+     * To maintain the MapWritable's text transformation in the reducer, a combiner must be created that implements the
+     * same logic as the reducer but that does not perform this transformation and outputs (Text, MapWritable) pairs.
+     */
+    public static class CoOccurrenceCombiner extends Reducer<Text, MapWritable, Text, MapWritable> {
+        protected void reduce(Text key, Iterable<MapWritable> values, Context context)
+                throws IOException, InterruptedException {
+            MapWritable combinedStripe = new MapWritable(); // define aggregate map for
+
+            for (MapWritable map : values)          // for each stripes associated to a word
+            {
+                for (Writable k : map.keySet())     // for each neighbour in the stripe
+                {
+                    IntWritable count = (IntWritable) map.get(k);               // get local occurrence
+                    IntWritable existing = (IntWritable) combinedStripe.get(k); // get total occurrence
+
+                    if (existing != null)       // this pair of words has been found before
+                    {
+                        int updatedCount = existing.get() + count.get();        // create updated count
+                        combinedStripe.put(k, new IntWritable(updatedCount));   // update total occurrence
+                    } else                      // this pair of words has not been found before
+                        combinedStripe.put(k, new IntWritable(count.get()));    // set (first time) the total occurrence
+                }
+            }
+
+            context.write(key, combinedStripe);         // emit word and aggregate stripe associated
+        }
+    }
+
+    /**
+     * Reducer class to implement the reduce logic for the CoOccurrence count (vers. stripes)
      */
     public static class CoOccurrenceReducer extends Reducer<Text, MapWritable, Text, Text> {
         // reduce function
         protected void reduce(Text key, Iterable<MapWritable> values, Context context)
                 throws IOException, InterruptedException {
-            MapWritable aggregateMap = new MapWritable();       // define aggregate map for
+            MapWritable aggregateMap = new MapWritable();       // define aggregate map
 
             for (MapWritable map : values)              // for each stripes associated to a word
             {
@@ -99,7 +136,10 @@ public class CoOccurrenceStripes
                     IntWritable existing = (IntWritable) aggregateMap.get(k);   // get total occurrence
 
                     if (existing != null)           // this pair of words has been found before
-                        existing.set(existing.get() + count.get());             // update total occurrence
+                    {
+                        int updatedCount = existing.get() + count.get();        // create updated count
+                        aggregateMap.put(k, new IntWritable(updatedCount));     // update total occurrence
+                    }
                     else                            // this pair of words has not been found before
                         aggregateMap.put(k, new IntWritable(count.get()));      // set (first time) the total occurrence
                 }
@@ -119,6 +159,9 @@ public class CoOccurrenceStripes
                 IntWritable value = (IntWritable) entry.getValue();         // get the occurrence
                 sb.append(key.toString()).append(":").append(value.get()).append(", "); // format the string
             }
+
+            if (sb.length() > 2)
+                sb.setLength(sb.length() - 2);          // removes the last comma and space
 
             return sb.toString();                       // return the formatted string
         }
@@ -159,30 +202,67 @@ public class CoOccurrenceStripes
     // ---------------------- end: utility functions ----------------------
 
     /**
-     * main function of the wordcount application.
+     * main function of the CoOccurrence word count application (vers. stripes).
      * It repeats the same job multiple times and will collect metrics each time and then show an average of some,
      * useful for testing. In the output data folder a different subfolder will be generated for each job run executed,
      * at the end of the name there will be the number related to the job to distinguish the different outputs.
      *
-     * @param args          <input path> <output base path> [numRuns]
+     * @param args          <input path> <output base path> [numRuns] [useCombiner(true|false)] [numReducer]
      * @throws Exception
      */
     public static void main(final String[] args) throws Exception {
 
         String jobName = "CoOccurrenceStripes";     // name for the job
+        String statsFileName = "job_stats.txt";     // name for the file containing the printed statistics of the jobs
         // check the number of argument passed
         if (args.length < 2) {
-            System.err.println("Usage: CoOccurrenceStripes <input path> <output base path> [numRuns]");
+            System.err.println("Usage: " + jobName + " <input path> <output base path> [numRuns] [useCombiner(true|false)] [numReducer]");
             System.exit(-1);
         }
+        // ---- take all the argument ----
         String inputPath = args[0];         // take the input folder
         String outputBasePath = args[1];    // take base output folder
-
+        // -- get te number of runs to do --
         int numRunsRequested = 1;           // default value for the run
         if (args.length >= 3)               // check if the user entered the third argument
         {
-            numRunsRequested = Integer.parseInt(args[2]);   // take the number of runs to do
+            try {
+                numRunsRequested = Integer.parseInt(args[2]);   // take the number of runs to do
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid num of runs: " + args[2]);
+                System.exit(-1);
+            }
+
+            if (numRunsRequested <= 0)              // check for the num of the runs to do
+            {
+                System.err.println("Num of runs to do must be >= 1");
+                System.exit(-1);
+            }
         }
+        // -- get the combiner choice --
+        boolean useCombiner = false;
+        if (args.length >= 4) {
+            useCombiner = Boolean.parseBoolean(args[3]);
+        }
+        // -- get the number of reducer --
+        int numReducer = 1;             // default value for the num of the reducer
+        if (args.length >= 5)           // check if the user entered the third argument
+        {
+            try {
+                numReducer = Integer.parseInt(args[4]);     // take the number of reducer task to execute
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid num of reducer: " + args[4]);
+                System.exit(-1);
+            }
+
+            if (numReducer <= 0)                            // check for the num of the runs to do
+            {
+                System.err.println("Num of reducer to do must be >= 0");
+                System.exit(-1);
+            }
+        }
+
+        // ---- instantiates and executes jobs ----
         // var to manage the runs
         int successfulRuns = 0;             // run successfully completed
         long totalTime = 0;                 // total time used to perform all the runs of the job
@@ -194,7 +274,7 @@ public class CoOccurrenceStripes
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns + "_comb_" + useCombiner + "_red_" + numReducer);
             job.setJarByClass(CoOccurrenceStripes.class);
 
             job.setMapOutputKeyClass(Text.class);           // set the typer for the output key for mapper
@@ -203,11 +283,11 @@ public class CoOccurrenceStripes
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
             job.setOutputValueClass(Text.class);            // set the typer for the output value for reducer
 
-            job.setMapperClass(CoOccurrenceMapper.class);       // set mapper
-            //job.setCombinerClass(CoOccurrenceReducer.class);  // set combiner -> See NOTE 1
-            job.setReducerClass(CoOccurrenceReducer.class);     // set reducer
-
-            //job.setNumReduceTasks(2);                           // to set the number of the reducer task
+            job.setMapperClass(CoOccurrenceMapper.class);           // set mapper
+            if (useCombiner)
+                job.setCombinerClass(CoOccurrenceCombiner.class);   // set combiner -> See NOTE 1
+            job.setReducerClass(CoOccurrenceReducer.class);         // set reducer
+            job.setNumReduceTasks(numReducer);                      // to set the number of the reducer task
 
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
@@ -241,7 +321,8 @@ public class CoOccurrenceStripes
                 System.out.println("Date: " + getCurrentDateTime());
                 System.out.println("Job Name: " + job.getJobName());
                 System.out.println("Job ID: " + job.getJobID());
-                System.out.println("Tracking URL: " + job.getTrackingURL());
+                String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
+                System.out.println("Tracking URL: " + trackingUrl);
                 System.out.println("Map Input Records: " + mapInputRecords);
                 System.out.println("Map Output Records: " + mapOutputRecords);
                 System.out.println("Reduce Input Records: " + reduceInputRecords);
@@ -250,13 +331,21 @@ public class CoOccurrenceStripes
                 System.out.println("Application time: " + formatDuration(duration));
 
                 // write in a file txt -- see Note 0
-                try (PrintWriter writer = new PrintWriter(new FileWriter("job_stats.txt", true))) {
+                try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
                     writer.println("------------------------------------------");
                     writer.println("=== Job Statistics ===");
+                    writer.println("Identifiers:");
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
-                    writer.println("Tracking URL: " + job.getTrackingURL());
+                    writer.println("Tracking URL: " + trackingUrl);
+                    writer.println("Parameters:");
+                    writer.println("Input Path: " + inputPath);
+                    writer.println("Output Path: " + outputPath);
+                    writer.println("Use Combiner: " + useCombiner);
+                    writer.println("Num Reducers: " + numReducer);
+                    writer.println("Run Attempt: " + attempt);
+                    writer.println("Data:");
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);
@@ -275,7 +364,23 @@ public class CoOccurrenceStripes
 
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
-        System.out.println("Average execution time: " + formatDuration((long)averageTime) + " ms");
+        System.out.println("Average execution time: " + formatDuration((long)averageTime));
+        System.out.println("Statistics written to: " + new File(statsFileName).getAbsolutePath());
+
+        // write in a file txt -- see Note 0
+        try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
+            writer.println("------------------------------------------");
+            writer.println("=== Final Recap of Runs for " + jobName + " ===");
+            writer.println("Run:");
+            writer.println("Requested run: " + numRunsRequested);
+            writer.println("Successfull run: " + successfulRuns);
+            writer.println("Total attempt run: " + attempt);
+            writer.println("Failed run: " + (attempt - successfulRuns));
+            writer.println("Time:");
+            writer.println("Total execution time: " + formatDuration(totalTime));
+            writer.println("Average execution time: " + formatDuration((long)averageTime));
+            writer.println("------------------------------------------");
+        }
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }

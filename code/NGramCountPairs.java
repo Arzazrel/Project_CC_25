@@ -19,6 +19,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.Counters;
 import org.apache.hadoop.mapreduce.TaskCounter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -34,8 +35,8 @@ public class NGramCountPairs
     public static class NGramCountMapper extends Mapper<LongWritable, Text, Text, IntWritable>
     {
         private final static IntWritable ONE = new IntWritable(1);  // the value for each pairs
-        private Text pair = new Text();                             // var to contain the key (word1,word2,...,wordN-1)
-        private int window = 2;                                     // var to contain the window size
+        private Text nGram = new Text();                            // var to contain the key (word1,word2,...,wordN-1)
+        private int window;                                         // var to contain the window size
 
 
         // to take the window size from configuration
@@ -45,21 +46,42 @@ public class NGramCountPairs
         }
 
         // map function
-        protected void map(LongWritable key, Text value, Context context)
+        protected void map(final LongWritable key,final Text value,final Context context)
                 throws IOException, InterruptedException {
-            String[] words = value.toString()
-                                  .toLowerCase()
-                                  .replaceAll("[^a-zA-Z0-9\\s]", "")    // removes punctuation
-                                  .split("\\s+");                       // split the given input text line into words
-            
+            String[] words = value.toString().toLowerCase()
+                    .replaceAll("[^\\p{L}0-9\\s'-]", " ")           // removes unwanted characters, keeps only letters, numbers and ',-
+                    .replaceAll("(?<=\\s)['-]+|[\'-]+(?=\\s)", " ") // removes isolated '-' or ''' between spaces
+                    .replaceAll("(^|\\s)['-]+", " ")                // removes '-' or ''' at the beginning of the word
+                    .replaceAll("[-']+(\\s|$)", " ")                // removes '-' or ''' at the end of the word
+                    .trim()                                         // removes leading and trailing whitespace
+                    .split("\\s+");                                 // splits the string into an array of words, using one or more consecutive whitespace as separators.
+            boolean errorWord = false;      // indicates if empty words were found in the current window, you should move to the next iteration without issuing anything
+
+            if (words.length < window)      // check to see if the record has length less than the window
+                return;
+
             for (int i = 0; i < (words.length - (window - 1)); i++)          // iterate over each word obtained from the line
             {
-                String w1 = words[i];           // take the current word
-                String w2 = words[i + 1];       // take the next word
-                if (w1.isEmpty() || w2.isEmpty())   // control check for the key
-                    continue;
-                pair.set(w1 + "," + w2);        // create the key = (current word,next word)
-                context.write(pair, ONE);       // emit key-value pairs
+                StringBuilder wordsKey = new StringBuilder();   // the builder for the key formed by the union of the various words of the n-gram
+                errorWord = false;                              // reset var
+                
+                for (int j = 0; j < window; j++)        // iteration to retrieve all the word in the current window
+                {
+                    if (words[i + j].isEmpty())     // check if at least one word is empty
+                    {
+                        errorWord = true;               // set var
+                        break;                          // exit to the creation of the key string
+                    }
+                    wordsKey.append(words[i + j]);      // add word
+                    if (j != (window-1))            // check if is not the last iteration
+                        wordsKey.append(",");  // add ','
+                }
+
+                if (errorWord)   // control check for the key
+                    continue;                   // go to next iteration
+
+                nGram.set(wordsKey);            // create the key = (current word,next word)
+                context.write(nGram, ONE);      // emit key-value pairs
             }
         }
     }
@@ -109,45 +131,92 @@ public class NGramCountPairs
      */
     public static String getCurrentDateTime()
     {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();        // get the current date
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");   // format the date
         return now.format(formatter);
     }
 
     // ---------------------- end: utility functions ----------------------
 
     /**
-     * main function of the wordcount application.
+     * Main function of the n-gram count application.
      * It repeats the same job multiple times and will collect metrics each time and then show an average of some,
      * useful for testing. In the output data folder a different subfolder will be generated for each job run executed,
      * at the end of the name there will be the number related to the job to distinguish the different outputs.
      *
-     * @param args          <input path> <output base path> [numRuns]
+     * @param args          <input path> <output base path> [window(N)] [numRuns] [useCombiner(true|false)] [numReducer]
      * @throws Exception
      */
     public static void main(final String[] args) throws Exception {
 
-        String jobName = "NGramCountPairs";   // name for the job
+        String jobName = "NGramCountPairs";     // name for the job
+        String statsFileName = "job_stats.txt"; // name for the file containing the printed statistics of the jobs
         // check the number of argument passed
         if (args.length < 2) {
-            System.err.println("Usage: NGramCountPairs <input path> <output base path> [window(N)] [numRuns]");
+            System.err.println("Usage: " + jobName + " <input path> <output base path> [window(N)] [numRuns] [useCombiner(true|false)] [numReducer]");
             System.exit(-1);
         }
+        // ---- take all the argument ----
         String inputPath = args[0];         // take the input folder
         String outputBasePath = args[1];    // take base output folder
-
-        int window = 1;                     // default value for the window, that
+        // -- get window size --
+        int window = 2;                     // default value for the window (2-gram)
         if (args.length >= 3)               // check if the user entered the fourth argument
         {
-            window = Integer.parseInt(args[2]);     // take the number indicates the size of the window
-        }
+            try {
+                window = Integer.parseInt(args[2]); // get the number indicating the size of the window
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid window size: " + args[2]);
+                System.exit(-1);
+            }
 
+            if (window < 2)                         // check for the window size
+            {
+                System.err.println("Window size must be >= 2");
+                System.exit(-1);
+            }
+        }
+        // -- get te number of runs to do --
         int numRunsRequested = 1;           // default value for the run
-        if (args.length >= 4)               // check if the user entered the third argument
+        if (args.length >= 4)               // check if the user entered the fifth argument
         {
+            try {
             numRunsRequested = Integer.parseInt(args[3]);   // take the number of runs to do
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid num of runs: " + args[3]);
+                System.exit(-1);
+            }
+
+            if (numRunsRequested <= 0)              // check for the num of the runs to do
+            {
+                System.err.println("Num of runs to do must be >= 1");
+                System.exit(-1);
+            }
+        }
+        // -- get the combiner choice --
+        boolean useCombiner = false;
+        if (args.length >= 5)           // check if the user entered the sixth argument
+            useCombiner = Boolean.parseBoolean(args[4]);
+
+        // -- get the number of reducer --
+        int numReducer = 1;             // default value for the num of the reducer
+        if (args.length >= 6)           // check if the user entered the seventh argument
+        {
+            try {
+                numReducer = Integer.parseInt(args[5]);     // take the number of reducer task to execute
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid num of reducer: " + args[5]);
+                System.exit(-1);
+            }
+
+            if (numReducer <= 0)                            // check for the num of the runs to do
+            {
+                System.err.println("Num of reducer to do must be >= 0");
+                System.exit(-1);
+            }
         }
 
+        // ---- instantiates and executes jobs ----
         // var to manage the runs
         int successfulRuns = 0;             // run successfully completed
         long totalTime = 0;                 // total time used to perform all the runs of the job
@@ -160,17 +229,17 @@ public class NGramCountPairs
 
             final Configuration conf = new Configuration(); // create configuration object
             conf.setInt("window",window);                   // set the configuration to contain the N of N-Gram
-            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns + "_w" + window + "_comb_" + useCombiner + "_red_" + numReducer);
             job.setJarByClass(NGramCountPairs.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer
             job.setOutputValueClass(IntWritable.class);     // set the typer for the output value for reducer
 
             job.setMapperClass(NGramCountMapper.class);         // set mapper
-            //job.setCombinerClass(NGramCountReducer.class);    // set combiner -> See NOTE 1
+            if (useCombiner)
+                job.setCombinerClass(NGramCountReducer.class);  // set combiner -> See NOTE 1
             job.setReducerClass(NGramCountReducer.class);       // set reducer
-
-            //job.setNumReduceTasks(2);                       // to set the number of the reducer task
+            job.setNumReduceTasks(numReducer);                  // to set the number of the reducer task
 
             FileInputFormat.addInputPath(job, new Path(inputPath));     // first argument is the input folder
 
@@ -213,13 +282,22 @@ public class NGramCountPairs
                 System.out.println("Application time: " + formatDuration(duration));
 
                 // write in a file txt -- see Note 0
-                try (PrintWriter writer = new PrintWriter(new FileWriter("job_stats.txt", true))) {
+                try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
                     writer.println("------------------------------------------");
                     writer.println("=== Job Statistics ===");
+                    writer.println("Identifiers:");
                     writer.println("Date: " + getCurrentDateTime());
                     writer.println("Job Name: " + job.getJobName());
                     writer.println("Job ID: " + job.getJobID());
                     writer.println("Tracking URL: " + job.getTrackingURL());
+                    writer.println("Parameters:");
+                    writer.println("Input Path: " + inputPath);
+                    writer.println("Output Path: " + outputPath);
+                    writer.println("Window Size: " + window);
+                    writer.println("Use Combiner: " + useCombiner);
+                    writer.println("Num Reducers: " + numReducer);
+                    writer.println("Run Attempt: " + attempt);
+                    writer.println("Data:");
                     writer.println("Map Input Records: " + mapInputRecords);
                     writer.println("Map Output Records: " + mapOutputRecords);
                     writer.println("Reduce Input Records: " + reduceInputRecords);
@@ -239,6 +317,22 @@ public class NGramCountPairs
         double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
         System.out.println("Average execution time: " + formatDuration((long)averageTime));
+        System.out.println("Statistics written to: " + new File(statsFileName).getAbsolutePath());
+
+        // write in a file txt -- see Note 0
+        try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
+            writer.println("------------------------------------------");
+            writer.println("=== Final Recap of Runs for " + jobName + " ===");
+            writer.println("Run:");
+            writer.println("Requested run: " + numRunsRequested);
+            writer.println("Successfull run: " + successfulRuns);
+            writer.println("Total attempt run: " + attempt);
+            writer.println("Failed run: " + (attempt - successfulRuns));
+            writer.println("Time:");
+            writer.println("Total execution time: " + formatDuration(totalTime));
+            writer.println("Average execution time: " + formatDuration((long)averageTime));
+            writer.println("------------------------------------------");
+        }
 
         System.exit(successfulRuns == numRunsRequested ? 0 : 1);   // exit, 0: all ok , 1: error
     }
@@ -249,7 +343,9 @@ NOTE 0:
     If the file already exists, the data is appended to the end (FileWriter with true for append mode).
     The "Tracking URL" field shows you the address to monitor the job from the browser, useful if Hadoop is running in
     pseudo-distributed mode or on a real cluster.
+    Designed for testing purposes to obtain the most important statistics for each job in a pre-formatted, easily
+    accessible file. In non-test applications or on distributed clusters, it's best to comment out the entire section
+    related to writing to this file and take the information printed on the command line.
 NOTE 1:
-    the combiner is normal combiner isn't in-mapper combiner. Hadoop can execute the combiner or not (is optional).
-    If you don't want to set the combiner just comment out the whole line.
+    The combiner is normal combiner isn't in-mapper combiner. Hadoop can execute the combiner or not (is optional).
  */
