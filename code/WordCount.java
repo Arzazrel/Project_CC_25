@@ -181,7 +181,7 @@ public class WordCount
             long startTime, endTime, duration;              // var to take the effective execution time
 
             final Configuration conf = new Configuration(); // create configuration object
-            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns);
+            final Job job = Job.getInstance(conf, jobName + "_run_" + successfulRuns + "_comb_" + useCombiner + "_red_" + numReducer);
             job.setJarByClass(WordCount.class);
 
             job.setOutputKeyClass(Text.class);              // set the typer for the output key for reducer

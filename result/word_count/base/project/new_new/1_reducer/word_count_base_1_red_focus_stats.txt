@@ -1,0 +1,61 @@
+File System Counters
+		FILE: Number of bytes read=19386812
+		FILE: Number of bytes written=209014088
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=9168952
+		HDFS: Number of bytes written=441459
+		HDFS: Number of read operations=2351
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=782
+		Launched reduce tasks=1
+		Data-local map tasks=782
+		Total time spent by all maps in occupied slots (ms)=23374946
+		Total time spent by all reduces in occupied slots (ms)=5745112
+		Total time spent by all map tasks (ms)=11687473
+		Total time spent by all reduce tasks (ms)=2872556
+		Total vcore-milliseconds taken by all map tasks=11687473
+		Total vcore-milliseconds taken by all reduce tasks=2872556
+		Total megabyte-milliseconds taken by all map tasks=2991993088
+		Total megabyte-milliseconds taken by all reduce tasks=735374336
+	Map-Reduce Framework
+		Map input records=156215
+		Map output records=1734299
+		Map output bytes=15918208
+		Map output materialized bytes=19391498
+		Input split bytes=100878
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=41166
+		Reduce shuffle bytes=19391498
+		Reduce input records=1734299
+		Reduce output records=41166
+		Spilled Records=3468598
+		Shuffled Maps =782
+		Failed Shuffles=0
+		Merged Map outputs=782
+		GC time elapsed (ms)=284090
+		CPU time spent (ms)=561350
+		Physical memory (bytes) snapshot=189959884800
+		Virtual memory (bytes) snapshot=1441384566784
+		Total committed heap usage (bytes)=139919360000
+		Peak Map Physical memory (bytes)=246689792
+		Peak Map Virtual memory (bytes)=1847242752
+		Peak Reduce Physical memory (bytes)=190836736
+		Peak Reduce Virtual memory (bytes)=1849348096
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=9068074
+	File Output Format Counters 
+		Bytes Written=441459
+
+Average execution time: 01:02:38.747
