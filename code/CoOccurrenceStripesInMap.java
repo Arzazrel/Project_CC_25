@@ -202,6 +202,26 @@ public class CoOccurrenceStripesInMap
         return now.format(formatter);
     }
 
+    /**
+     * A function to format the input number of bytes in a more readable format. It will express the given number in
+     * the largest unit of measurement for which the value is not less than 1.
+     *
+     * @param bytes     number of bytes given as input
+     * @return          a string consisting of the value in the chosen unit of measurement (with 3 decimal places)
+     *                  followed by the adopted unit of measurement
+     */
+    public static String formatUnitBytes(long bytes) {
+        String[] units = { "B", "KB", "MB", "GB", "TB" };   // indicate all the units considered
+        int chosenUnit = 0;                                 // indicates the index of the chosen units in the array
+        double formattedSyze = bytes;                       // the input number o bytes
+
+        while (formattedSyze >= 1024 && chosenUnit < units.length - 1)
+        {
+            formattedSyze /= 1024.0;        // switch to the higher unit
+            chosenUnit++;                   // update the index of the current unit
+        }
+        return String.format("%.3f %s", formattedSyze, units[chosenUnit]);
+    }
     // ---------------------- end: utility functions ----------------------
 
     /**
@@ -422,8 +442,8 @@ public class CoOccurrenceStripesInMap
             writer.println("Average execution time: " + formatDuration((long)averageTime));
             writer.println("=== Averages over " + successfulRuns + " successful runs ===");
             writer.println("-- Data --");
-            writer.println("Avg Bytes Read: " + avgBytesRead);
-            writer.println("Avg Map Output Bytes: " + avgMapOutputBytes);
+            writer.println("Avg Bytes Read: " + formatUnitBytes((long)avgBytesRead));
+            writer.println("Avg Map Output Bytes: " + formatUnitBytes((long)avgMapOutputBytes));
             writer.println("Avg Spilled Records: " + avgSpilledRecords);
             writer.println("Avg Combine Input Records: " + avgCombineInputRecords);
             writer.println("Avg Combine Output Records: " + avgCombineOutputRecords);
@@ -431,9 +451,9 @@ public class CoOccurrenceStripesInMap
             writer.println("Avg Reduce Input Records: " + avgReduceInputRecords);
             writer.println("Avg Reduce Output Records: " + avgReduceOutputRecords);
             writer.println("-- Memory --");
-            writer.println("Avg Physical Memory Snapshot: " + avgPhysicalMemory);
-            writer.println("Avg Peak Map Physical Memory: " + avgPeakMapPhysicalMemory);
-            writer.println("Avg Peak Reduce Physical Memory: " + avgPeakReducePhysicalMemory);
+            writer.println("Avg Physical Memory Snapshot: " + formatUnitBytes((long)avgPhysicalMemory));
+            writer.println("Avg Peak Map Physical Memory: " + formatUnitBytes((long)avgPeakMapPhysicalMemory));
+            writer.println("Avg Peak Reduce Physical Memory: " + formatUnitBytes((long)avgPeakReducePhysicalMemory));
             writer.println("------------------------------------------");
         }
 
