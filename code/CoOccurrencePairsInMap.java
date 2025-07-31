@@ -301,6 +301,7 @@ public class CoOccurrencePairsInMap
                 long physicalMemory = counters.findCounter("Map-Reduce Framework", "Physical memory (bytes) snapshot").getValue();
                 long peakMapPhysicalMemory = counters.findCounter("Map-Reduce Framework", "Peak Map Physical memory (bytes)").getValue();
                 long peakReducePhysicalMemory = counters.findCounter("Map-Reduce Framework", "Peak Reduce Physical memory (bytes)").getValue();
+                String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
 
                 // update value to calculate the mean of the interesting fields
                 totalBytesRead += bytesRead;
