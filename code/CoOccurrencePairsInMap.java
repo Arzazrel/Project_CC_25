@@ -39,7 +39,7 @@ public class CoOccurrencePairsInMap
         private final IntWritable countWritable = new IntWritable();// var to set the value to associate with the found words
         private final Text word = new Text();                       // var which will contain the key for each pair (word1,word2)
 
-        // to initialize the data structures used fo in mapping
+        // to initialize the data structures used for in mapping
         protected void setup(Context context) throws IOException, InterruptedException {
             wordCountMap = new HashMap<>();     // set the hash map
         }
