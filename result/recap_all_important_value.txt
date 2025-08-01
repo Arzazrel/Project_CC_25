@@ -1,0 +1,105 @@
+Document containing all the important values that will be used in the documentation for each method and for all tested configurations.
+------------------------------------  WORD COUNT ------------------------------------  
+-------- base (1 reducer) -------- 
+
+-------- base (2 reducer) -------- 
+
+-------- external combiner (1 reducer) -------- 
+
+-------- external combiner (2 reducer) -------- 
+
+-------- inmap combining (1 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 496829
+Spilled Records: 993658
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 41166
+Reduce input records: 496829
+Reduce output records: 41166
+-- Memory --
+Physical memory snapshot: 177.220 GB
+Peak Map Physical memory: 235.186 MB
+Peak Reduce Physical memory: 164.826 MB
+-- Time --
+Total execution time: 10:10:12.480
+Average execution time: 01:01:01.248
+
+-------- inmap combining (2 reducer) --------
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 5237197
+Spilled Records: 993658
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 41166
+Reduce input records: 496829
+Reduce output records: 41166
+-- Memory --
+Physical memory snapshot: 177.505 GB
+Peak Map Physical memory: 235.684 MB
+Peak Reduce Physical memory: 163.945 MB
+-- Time --
+Total execution time: 10:28:20.084
+Average execution time: 01:02:50.008
+------------------------------------  CO OCCURRENCE ------------------------------------  
+------------------------ PAIRS ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
+------------------------ STRIPES ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
+------------------------------------  N-GRAM (3) ------------------------------------  
+------------------------ PAIRS ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
+------------------------ STRIPES ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
+------------------------------------  N-GRAM (5) ------------------------------------  
+------------------------ PAIRS ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
+------------------------ STRIPES ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
+------------------------------------  N-GRAM (10) ------------------------------------  
+------------------------ PAIRS ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
+------------------------ STRIPES ------------------------ 
+-------- base (1 reducer) -------- 
+-------- base (2 reducer) -------- 
+-------- external combiner (1 reducer) -------- 
+-------- external combiner (2 reducer) -------- 
+-------- inmap combining (1 reducer) -------- 
+-------- inmap combining (2 reducer) -------- 
