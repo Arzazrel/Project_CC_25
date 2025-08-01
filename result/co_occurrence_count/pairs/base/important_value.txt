@@ -1,0 +1,18 @@
+-- Data --
+Bytes Read:
+Map output bytes:
+Spilled Records:
+Combine input records:
+Combine output records:
+Reduce input groups:
+Reduce input records:
+Reduce output records:
+
+-- Memory --
+Physical memory snapshot:
+Peak Map Physical memory:
+Peak Reduce Physical memory:
+
+-- Time --
+Total execution time: 
+Average execution time: 

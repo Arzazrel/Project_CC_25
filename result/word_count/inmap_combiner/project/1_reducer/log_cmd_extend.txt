@@ -2201,4 +2201,3 @@ Application time: 01:02:26.095
 === All 10 jobs completed successfully ===
 Average execution time: 01:01:01.248
 Statistics written to: /home/hadoop/code/job_stats.txt
-

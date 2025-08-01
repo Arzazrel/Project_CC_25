@@ -1,0 +1,4 @@
+=== Average Memory Usage ===
+Physical memory snapshot:    
+Peak Map Physical Memory:    
+Peak Reduce Physical Memory: 

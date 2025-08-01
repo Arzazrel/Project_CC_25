@@ -8,7 +8,7 @@ Reduce input groups			-> Number of unique keys received by the reducer (i.e., gr
 Reduce input records			-> Total records sent to the reducer (across all keys).
 Reduce output records			-> Records emitted by the reducer as final output.
 
--- Time --
+-- Memory --
 Physical memory (bytes) snapshot	-> Total physical memory usage (RAM) at the snapshot time.
 Peak Map Physical memory (bytes)	-> Maximum physical memory used by any single map task.
 Peak Reduce Physical memory (bytes)	-> Maximum physical memory used by any reduce task.

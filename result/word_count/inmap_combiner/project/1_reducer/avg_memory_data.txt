@@ -1,0 +1,4 @@
+=== Average Memory Usage ===
+Physical memory snapshot:    177.220 GB
+Peak Map Physical Memory:    235.186 MB
+Peak Reduce Physical Memory: 164.826 MB
