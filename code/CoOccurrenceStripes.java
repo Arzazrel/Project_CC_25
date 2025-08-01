@@ -343,17 +343,15 @@ public class CoOccurrenceStripes
                 Counters counters = job.getCounters();
                 long mapInputRecords = counters.findCounter(TaskCounter.MAP_INPUT_RECORDS).getValue();
                 long mapOutputRecords = counters.findCounter(TaskCounter.MAP_OUTPUT_RECORDS).getValue();
+                long reduceInputGroups = counters.findCounter(TaskCounter.REDUCE_INPUT_GROUPS).getValue();
                 long reduceInputRecords = counters.findCounter(TaskCounter.REDUCE_INPUT_RECORDS).getValue();
                 long reduceOutputRecords = counters.findCounter(TaskCounter.REDUCE_OUTPUT_RECORDS).getValue();
                 long spilledRecords = counters.findCounter(TaskCounter.SPILLED_RECORDS).getValue();
-                long bytesRead = counters.findCounter("File Input Format Counters", "Bytes Read").getValue();
-                long mapOutputBytes = counters.findCounter("Map-Reduce Framework", "Map output bytes").getValue();
-                long combineInputRecords = counters.findCounter("Map-Reduce Framework", "Combine input records").getValue();
-                long combineOutputRecords = counters.findCounter("Map-Reduce Framework", "Combine output records").getValue();
-                long reduceInputGroups = counters.findCounter("Map-Reduce Framework", "Reduce input groups").getValue();
-                long physicalMemory = counters.findCounter("Map-Reduce Framework", "Physical memory (bytes) snapshot").getValue();
-                long peakMapPhysicalMemory = counters.findCounter("Map-Reduce Framework", "Peak Map Physical memory (bytes)").getValue();
-                long peakReducePhysicalMemory = counters.findCounter("Map-Reduce Framework", "Peak Reduce Physical memory (bytes)").getValue();
+                long bytesRead = counters.findCounter("org.apache.hadoop.mapreduce.FileInputFormatCounter", "BYTES_READ").getValue();
+                long mapOutputBytes = counters.findCounter(TaskCounter.MAP_OUTPUT_BYTES).getValue();
+                long combineInputRecords = counters.findCounter(TaskCounter.COMBINE_INPUT_RECORDS).getValue();
+                long combineOutputRecords = counters.findCounter(TaskCounter.COMBINE_OUTPUT_RECORDS).getValue();
+                long physicalMemory = counters.findCounter(TaskCounter.PHYSICAL_MEMORY_BYTES).getValue();
                 String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
 
                 // update value to calculate the mean of the interesting fields
@@ -362,12 +360,10 @@ public class CoOccurrenceStripes
                 totalSpilledRecords += spilledRecords;
                 totalCombineInputRecords += combineInputRecords;
                 totalCombineOutputRecords += combineOutputRecords;
-                totalReduceInputGroups += reduceInputGroups;
-                totalReduceInputRecords += reduceInputRecords;
-                totalReduceOutputRecords += reduceOutputRecords;
+                totalReduceInputGroups = reduceInputGroups;
+                totalReduceInputRecords = reduceInputRecords;
+                totalReduceOutputRecords = reduceOutputRecords;
                 totalPhysicalMemory += physicalMemory;
-                totalPeakMapPhysicalMemory += peakMapPhysicalMemory;
-                totalPeakReducePhysicalMemory += peakReducePhysicalMemory;
                 
                 // write in a file txt -- see Note 0
                 try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
@@ -402,18 +398,27 @@ public class CoOccurrenceStripes
         }       // -- end - while --
 
         // calculate the average values
-        double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
-        long avgBytesRead = totalBytesRead / successfulRuns;
-        long avgMapOutputBytes = totalMapOutputBytes / successfulRuns;
-        long avgSpilledRecords = totalSpilledRecords / successfulRuns;
-        long avgCombineInputRecords = totalCombineInputRecords / successfulRuns;
-        long avgCombineOutputRecords = totalCombineOutputRecords / successfulRuns;
-        long avgReduceInputGroups = totalReduceInputGroups / successfulRuns;
-        long avgReduceInputRecords = totalReduceInputRecords / successfulRuns;
-        long avgReduceOutputRecords = totalReduceOutputRecords / successfulRuns;
-        long avgPhysicalMemory = totalPhysicalMemory / successfulRuns;
-        long avgPeakMapPhysicalMemory = totalPeakMapPhysicalMemory / successfulRuns;
-        long avgPeakReducePhysicalMemory = totalPeakReducePhysicalMemory / successfulRuns;
+        double averageTime = 0.0;       // calculate the average execution time
+        long avgBytesRead = 0;
+        long avgMapOutputBytes = 0;
+        long avgSpilledRecords = 0;
+        long avgCombineInputRecords = 0;
+        long avgCombineOutputRecords = 0;
+        long avgPhysicalMemory = 0;
+
+        if (successfulRuns == 0) {
+            System.err.println("No successful runs. Cannot compute statistics.");
+        }
+        else
+        {
+            averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
+            avgBytesRead = totalBytesRead / successfulRuns;
+            avgMapOutputBytes = totalMapOutputBytes / successfulRuns;
+            avgSpilledRecords = totalSpilledRecords / successfulRuns;
+            avgCombineInputRecords = totalCombineInputRecords / successfulRuns;
+            avgCombineOutputRecords = totalCombineOutputRecords / successfulRuns;
+            avgPhysicalMemory = totalPhysicalMemory / successfulRuns;
+        }
 
         // print average values in the cmd
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
@@ -426,13 +431,11 @@ public class CoOccurrenceStripes
         System.out.println("Avg Spilled Records: " + avgSpilledRecords);
         System.out.println("Avg Combine Input Records: " + avgCombineInputRecords);
         System.out.println("Avg Combine Output Records: " + avgCombineOutputRecords);
-        System.out.println("Avg Reduce Input Groups: " + avgReduceInputGroups);
-        System.out.println("Avg Reduce Input Records: " + avgReduceInputRecords);
-        System.out.println("Avg Reduce Output Records: " + avgReduceOutputRecords);
+        System.out.println("Reduce Input Groups: " + totalReduceInputGroups);
+        System.out.println("Reduce Input Records: " + totalReduceInputRecords);
+        System.out.println("Reduce Output Records: " + totalReduceOutputRecords);
         System.out.println("-- Memory --");
         System.out.println("Avg Physical Memory Snapshot: " + avgPhysicalMemory);
-        System.out.println("Avg Peak Map Physical Memory: " + avgPeakMapPhysicalMemory);
-        System.out.println("Avg Peak Reduce Physical Memory: " + avgPeakReducePhysicalMemory);
 
         // write in a file txt -- see Note 0
         try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
@@ -453,13 +456,11 @@ public class CoOccurrenceStripes
             writer.println("Avg Spilled Records: " + avgSpilledRecords);
             writer.println("Avg Combine Input Records: " + avgCombineInputRecords);
             writer.println("Avg Combine Output Records: " + avgCombineOutputRecords);
-            writer.println("Avg Reduce Input Groups: " + avgReduceInputGroups);
-            writer.println("Avg Reduce Input Records: " + avgReduceInputRecords);
-            writer.println("Avg Reduce Output Records: " + avgReduceOutputRecords);
+            writer.println("Reduce Input Groups: " + totalReduceInputGroups);
+            writer.println("Reduce Input Records: " + totalReduceInputRecords);
+            writer.println("Reduce Output Records: " + totalReduceOutputRecords);
             writer.println("-- Memory --");
             writer.println("Avg Physical Memory Snapshot: " + formatUnitBytes((long)avgPhysicalMemory));
-            writer.println("Avg Peak Map Physical Memory: " + formatUnitBytes((long)avgPeakMapPhysicalMemory));
-            writer.println("Avg Peak Reduce Physical Memory: " + formatUnitBytes((long)avgPeakReducePhysicalMemory));
             writer.println("------------------------------------------");
         }
 

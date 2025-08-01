@@ -106,6 +106,26 @@ public class WordCount
         return now.format(formatter);
     }
 
+    /**
+     * A function to format the input number of bytes in a more readable format. It will express the given number in
+     * the largest unit of measurement for which the value is not less than 1.
+     *
+     * @param bytes     number of bytes given as input
+     * @return          a string consisting of the value in the chosen unit of measurement (with 3 decimal places)
+     *                  followed by the adopted unit of measurement
+     */
+    public static String formatUnitBytes(long bytes) {
+        String[] units = { "B", "KB", "MB", "GB", "TB" };   // indicate all the units considered
+        int chosenUnit = 0;                                 // indicates the index of the chosen units in the array
+        double formattedSyze = bytes;                       // the input number o bytes
+
+        while (formattedSyze >= 1024 && chosenUnit < units.length - 1)
+        {
+            formattedSyze /= 1024.0;        // switch to the higher unit
+            chosenUnit++;                   // update the index of the current unit
+        }
+        return String.format("%.3f %s", formattedSyze, units[chosenUnit]);
+    }
     // ---------------------- end: utility functions ----------------------
 
     /**
@@ -174,6 +194,15 @@ public class WordCount
         int successfulRuns = 0;             // run successfully completed
         long totalTime = 0;                 // total time used to perform all the runs of the job
         int attempt = 0;                    // run's attempt
+        long totalBytesRead = 0;                // Total number of bytes read by the job from input files
+        long totalMapOutputBytes = 0;           // Size in bytes of all mapper output
+        long totalSpilledRecords = 0;           // Number of records temporarily written to disk 8spilling phase in mapper)
+        long totalCombineInputRecords = 0;      // Records read by a combiner (if used)
+        long totalCombineOutputRecords = 0;     // Records output by a combiner (if used)
+        long totalReduceInputGroups = 0;        // Number of unique keys received by the reducer
+        long totalReduceInputRecords = 0;       // Total records sent to the reducer (across all keys)
+        long totalReduceOutputRecords = 0;      // Records emitted by the reducer as final output
+        long totalPhysicalMemory = 0;           // Total physical memory usage (RAM)
 
         // while to perform the severals runs of the application
         while (successfulRuns < numRunsRequested)
@@ -216,23 +245,27 @@ public class WordCount
                 Counters counters = job.getCounters();
                 long mapInputRecords = counters.findCounter(TaskCounter.MAP_INPUT_RECORDS).getValue();
                 long mapOutputRecords = counters.findCounter(TaskCounter.MAP_OUTPUT_RECORDS).getValue();
+                long reduceInputGroups = counters.findCounter(TaskCounter.REDUCE_INPUT_GROUPS).getValue();
                 long reduceInputRecords = counters.findCounter(TaskCounter.REDUCE_INPUT_RECORDS).getValue();
                 long reduceOutputRecords = counters.findCounter(TaskCounter.REDUCE_OUTPUT_RECORDS).getValue();
                 long spilledRecords = counters.findCounter(TaskCounter.SPILLED_RECORDS).getValue();
-
-                // print to console statistcs
-                System.out.println("=== Job Statistics ===");
-                System.out.println("Date: " + getCurrentDateTime());
-                System.out.println("Job Name: " + job.getJobName());
-                System.out.println("Job ID: " + job.getJobID());
+                long bytesRead = counters.findCounter("org.apache.hadoop.mapreduce.FileInputFormatCounter", "BYTES_READ").getValue();
+                long mapOutputBytes = counters.findCounter(TaskCounter.MAP_OUTPUT_BYTES).getValue();
+                long combineInputRecords = counters.findCounter(TaskCounter.COMBINE_INPUT_RECORDS).getValue();
+                long combineOutputRecords = counters.findCounter(TaskCounter.COMBINE_OUTPUT_RECORDS).getValue();
+                long physicalMemory = counters.findCounter(TaskCounter.PHYSICAL_MEMORY_BYTES).getValue();
                 String trackingUrl = job.getTrackingURL() == null ? "N/A" : job.getTrackingURL();
-                System.out.println("Tracking URL: " + trackingUrl);
-                System.out.println("Map Input Records: " + mapInputRecords);
-                System.out.println("Map Output Records: " + mapOutputRecords);
-                System.out.println("Reduce Input Records: " + reduceInputRecords);
-                System.out.println("Reduce Output Records: " + reduceOutputRecords);
-                System.out.println("Spilled Records: " + spilledRecords);
-                System.out.println("Application time: " + formatDuration(duration));
+
+                // update value to calculate the mean of the interesting fields
+                totalBytesRead += bytesRead;
+                totalMapOutputBytes += mapOutputBytes;
+                totalSpilledRecords += spilledRecords;
+                totalCombineInputRecords += combineInputRecords;
+                totalCombineOutputRecords += combineOutputRecords;
+                totalReduceInputGroups = reduceInputGroups;
+                totalReduceInputRecords = reduceInputRecords;
+                totalReduceOutputRecords = reduceOutputRecords;
+                totalPhysicalMemory += physicalMemory;
 
                 // write in a file txt -- see Note 0
                 try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
@@ -266,10 +299,45 @@ public class WordCount
             attempt++;      // update the attempt
         }       // -- end - while --
 
-        double averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
+        // calculate the average values
+        double averageTime = 0.0;       // calculate the average execution time
+        long avgBytesRead = 0;
+        long avgMapOutputBytes = 0;
+        long avgSpilledRecords = 0;
+        long avgCombineInputRecords = 0;
+        long avgCombineOutputRecords = 0;
+        long avgPhysicalMemory = 0;
+
+        if (successfulRuns == 0) {
+            System.err.println("No successful runs. Cannot compute statistics.");
+        }
+        else
+        {
+            averageTime = totalTime / (double) successfulRuns;       // calculate the average execution time
+            avgBytesRead = totalBytesRead / successfulRuns;
+            avgMapOutputBytes = totalMapOutputBytes / successfulRuns;
+            avgSpilledRecords = totalSpilledRecords / successfulRuns;
+            avgCombineInputRecords = totalCombineInputRecords / successfulRuns;
+            avgCombineOutputRecords = totalCombineOutputRecords / successfulRuns;
+            avgPhysicalMemory = totalPhysicalMemory / successfulRuns;
+        }
+
+        // print average values in the cmd
         System.out.println("\n=== All " + successfulRuns + " jobs completed successfully ===");
         System.out.println("Average execution time: " + formatDuration((long)averageTime));
         System.out.println("Statistics written to: " + new File(statsFileName).getAbsolutePath());
+        System.out.println("\n=== Averages over " + successfulRuns + " successful runs ===");
+        System.out.println("-- Data --");
+        System.out.println("Avg Bytes Read: " + avgBytesRead);
+        System.out.println("Avg Map Output Bytes: " + avgMapOutputBytes);
+        System.out.println("Avg Spilled Records: " + avgSpilledRecords);
+        System.out.println("Avg Combine Input Records: " + avgCombineInputRecords);
+        System.out.println("Avg Combine Output Records: " + avgCombineOutputRecords);
+        System.out.println("Reduce Input Groups: " + totalReduceInputGroups);
+        System.out.println("Reduce Input Records: " + totalReduceInputRecords);
+        System.out.println("Reduce Output Records: " + totalReduceOutputRecords);
+        System.out.println("-- Memory --");
+        System.out.println("Avg Physical Memory Snapshot: " + avgPhysicalMemory);
 
         // write in a file txt -- see Note 0
         try (PrintWriter writer = new PrintWriter(new FileWriter(statsFileName, true))) {
@@ -283,6 +351,18 @@ public class WordCount
             writer.println("Time:");
             writer.println("Total execution time: " + formatDuration(totalTime));
             writer.println("Average execution time: " + formatDuration((long)averageTime));
+            writer.println("=== Averages over " + successfulRuns + " successful runs ===");
+            writer.println("-- Data --");
+            writer.println("Avg Bytes Read: " + formatUnitBytes((long)avgBytesRead));
+            writer.println("Avg Map Output Bytes: " + formatUnitBytes((long)avgMapOutputBytes));
+            writer.println("Avg Spilled Records: " + avgSpilledRecords);
+            writer.println("Avg Combine Input Records: " + avgCombineInputRecords);
+            writer.println("Avg Combine Output Records: " + avgCombineOutputRecords);
+            writer.println("Reduce Input Groups: " + totalReduceInputGroups);
+            writer.println("Reduce Input Records: " + totalReduceInputRecords);
+            writer.println("Reduce Output Records: " + totalReduceOutputRecords);
+            writer.println("-- Memory --");
+            writer.println("Avg Physical Memory Snapshot: " + formatUnitBytes((long)avgPhysicalMemory));
             writer.println("------------------------------------------");
         }
 
