@@ -77,7 +77,7 @@ public class CoOccurrenceStripes
                 }
             }
 
-            // now emit all the word and associated stripes
+            // now emit all the word and associated stripes -> format emit: (word,stripes) -> all word have a stripes (hash map) formatted in this way: (word[i+1], occurrence)
             for (Map.Entry<String, MapWritable> entry : wordSeenMap.entrySet()) {
                 Text word = new Text(entry.getKey());              // get key (word)
                 MapWritable stripe = entry.getValue();             // get stripe

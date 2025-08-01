@@ -159,7 +159,7 @@ public class NGramCountPairs
     // ---------------------- end: utility functions ----------------------
 
     /**
-     * Main function of the n-gram count application.
+     * Main function of the n-gram count application (pairs version).
      * It repeats the same job multiple times and will collect metrics each time and then show an average of some,
      * useful for testing. In the output data folder a different subfolder will be generated for each job run executed,
      * at the end of the name there will be the number related to the job to distinguish the different outputs.
