@@ -18,6 +18,7 @@ Combine output records: 0
 Reduce input groups: 41166
 Reduce input records: 496829
 Reduce output records: 41166
+Bytes Written:
 -- Memory --
 Physical memory snapshot: 177.220 GB
 Peak Map Physical memory: 235.186 MB
@@ -36,6 +37,7 @@ Combine output records: 0
 Reduce input groups: 41166
 Reduce input records: 496829
 Reduce output records: 41166
+Bytes Written:
 -- Memory --
 Physical memory snapshot: 177.505 GB
 Peak Map Physical memory: 235.684 MB
@@ -55,6 +57,7 @@ Combine output records: 0
 Reduce input groups: 423773
 Reduce input records: 1578221
 Reduce output records: 423773
+Bytes Written:
 -- Memory --
 Physical memory snapshot: 177.167 GB
 Peak Map Physical memory: 236.012 MB
@@ -72,6 +75,7 @@ Combine output records: 0
 Reduce input groups: 423773
 Reduce input records: 1578221
 Reduce output records: 423773
+Bytes Written:
 -- Memory --
 Physical memory snapshot: 177.453 GB
 Peak Map Physical memory: 235.272 MB
@@ -80,31 +84,83 @@ Peak Reduce Physical memory: 173.474 MB
 Total execution time: 10:46:56.540
 Average execution time: 01:04:41.654
 -------- external combiner (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 21.415 MB
+Spilled Records: 2374132
+Combine input records: 1578221
+Combine output records: 1187066
+Reduce input groups: 423773
+Reduce input records: 1187066
+Reduce output records: 423773
+Bytes Written: 6,041 MB
+-- Memory --
+Physical memory snapshot: 177.301 GB
+Peak Map Physical memory: 235.755 MB
+Peak Reduce Physical memory: 181.113 MB
+-- Time --
+Total execution time: 11:01:15.003
+Average execution time: 01:06:07.500
 -------- external combiner (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 21.415 MB
+Spilled Records: 2374132
+Combine input records: 1578221
+Combine output records: 1187066
+Reduce input groups: 423773
+Reduce input records: 1187066
+Reduce output records: 423773
+Bytes Written: 6,041 MB
+-- Memory --
+Physical memory snapshot: 177.545 GB
+Peak Map Physical memory: 235.542 MB
+Peak Reduce Physical memory: 166.516 MB
+-- Time --
+Total execution time: 10:47:33.615
+Average execution time: 01:04:45.361
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 
 ------------------------ STRIPES ------------------------ 
 -------- base (1 reducer) -------- 
+
 -------- base (2 reducer) -------- 
+
 -------- external combiner (1 reducer) -------- 
+
 -------- external combiner (2 reducer) -------- 
+
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 
 ------------------------------------  N-GRAM (3) ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
+
 -------- base (2 reducer) -------- 
+
 -------- external combiner (1 reducer) -------- 
+
 -------- external combiner (2 reducer) -------- 
+
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 
+
 ------------------------ STRIPES ------------------------ 
 -------- base (1 reducer) -------- 
+
 -------- base (2 reducer) -------- 
+
 -------- external combiner (1 reducer) -------- 
+
 -------- external combiner (2 reducer) -------- 
+
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 
+
 ------------------------------------  N-GRAM (5) ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
