@@ -92,7 +92,8 @@ public class WordCountInMap
 
         // function to emit the data collected and flush the memory
         private void flush(Context context) throws IOException, InterruptedException {
-            // I loop through the entire contents of the hasmap and output the key-values (word-occurrence) stored inside and then free the hashmap.
+            // loop through the entire contents of the hasmap and output the key-values (word-occurrence) stored
+            // inside and then free the hashmap.
             for (Map.Entry<String, Integer> entry : wordCountMap.entrySet()) {
                 word.set(entry.getKey());                   // set the word
                 countWritable.set(entry.getValue());        // set the occurrence

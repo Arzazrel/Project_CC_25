@@ -11,6 +11,7 @@ def main():
     file_path = sys.argv[1]     # take the file 
     word_counts = {}            # dictionary for pair (word, occurrence)
     tot_word_count = 0          # the total number of word
+    tot_occ_count = 0           # the total number of occurrence for all the word (is the total number of token ofthe collection)
     
     with open(file_path, 'r') as file:          # read the file
         for line in file:                       # scroll the lines
@@ -20,6 +21,7 @@ def main():
                 tot_word_count += 1             # update the counter
                 try:
                     count = int(parts[1])       # take occurrence
+                    tot_occ_count += count      # update the total occurrence
                     word_counts[word] = count   # put in the dictionay
                 except ValueError:
                     pass                        # ignore malformed lines
@@ -27,6 +29,7 @@ def main():
     sorted_items = sorted(word_counts.items(), key=lambda x: x[1])  # sort by frequency
 
     print("total number of word: ",tot_word_count)
+    print("total occurrence of word: ",tot_occ_count)
 
     print("=== 10 least frequent words ===")
     for word, count in sorted_items[:10]:           # print the 10 least frequent words
