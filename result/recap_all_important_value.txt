@@ -46,7 +46,39 @@ Average execution time: 01:02:50.008
 ------------------------------------  CO OCCURRENCE ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 21.415 MB
+Spilled Records: 3156442
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 423773
+Reduce input records: 1578221
+Reduce output records: 423773
+-- Memory --
+Physical memory snapshot: 177.167 GB
+Peak Map Physical memory: 236.012 MB
+Peak Reduce Physical memory: 186.014 MB
+-- Time --
+Total execution time: 10:46:49.590
+Average execution time: 01:04:40.959
 -------- base (2 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 21.415 MB
+Spilled Records: 3156442
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 423773
+Reduce input records: 1578221
+Reduce output records: 423773
+-- Memory --
+Physical memory snapshot: 177.453 GB
+Peak Map Physical memory: 235.272 MB
+Peak Reduce Physical memory: 173.474 MB
+-- Time --
+Total execution time: 10:46:56.540
+Average execution time: 01:04:41.654
 -------- external combiner (1 reducer) -------- 
 -------- external combiner (2 reducer) -------- 
 -------- inmap combining (1 reducer) -------- 
