@@ -80,7 +80,7 @@ public class NGramCountPairs
                 if (errorWord)   // control check for the key
                     continue;                   // go to next iteration
 
-                nGram.set(wordsKey);            // create the key = (current word,next word,...,wordn-1)
+                nGram.set(wordsKey.toString());         // create the key = (current word,next word,...,wordn-1)
                 context.write(nGram, ONE);      // emit key-value pairs
             }
         }
