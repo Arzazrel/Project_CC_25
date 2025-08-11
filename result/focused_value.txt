@@ -1,14 +1,15 @@
 -- Data --
 Bytes Read				-> Total number of bytes read by the job from input files via the configured input format.
 Map output bytes			-> Size in bytes of all mapper output.
-Spilled Records				-> Number of records temporarily written to disk due to memory constraints.
+Spilled Records				-> Number of records temporarily written to disk due to memory constraints (in map phase).
 Combine input records			-> Records read by a combiner (if used).
 Combine output records			-> Records output by a combiner.
-Reduce input groups			-> Number of unique keys received by the reducer (i.e., grouped inputs).
+Reduce input groups			-> Number of unique keys received by the reducer.
 Reduce input records			-> Total records sent to the reducer (across all keys).
 Reduce output records			-> Records emitted by the reducer as final output.
+Bytes Written:				-> Total number of bytes written by Reduce to the file system (e.g. HDFS) as the final output of the job.
 
 -- Memory --
-Physical memory (bytes) snapshot	-> Total physical memory usage (RAM) at the snapshot time.
+Physical memory (bytes) snapshot	-> The sum of physical memory allocated by all active containers, in all snapshots detected by YARN during the job.
 Peak Map Physical memory (bytes)	-> Maximum physical memory used by any single map task.
 Peak Reduce Physical memory (bytes)	-> Maximum physical memory used by any reduce task.

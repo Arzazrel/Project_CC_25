@@ -20,9 +20,9 @@ Reduce input records: 496829
 Reduce output records: 41166
 Bytes Written:
 -- Memory --
-Physical memory snapshot: 177.220 GB
-Peak Map Physical memory: 235.186 MB
-Peak Reduce Physical memory: 164.826 MB
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
 -- Time --
 Total execution time: 10:10:12.480
 Average execution time: 01:01:01.248
@@ -39,9 +39,9 @@ Reduce input records: 496829
 Reduce output records: 41166
 Bytes Written:
 -- Memory --
-Physical memory snapshot: 177.505 GB
-Peak Map Physical memory: 235.684 MB
-Peak Reduce Physical memory: 163.945 MB
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
 -- Time --
 Total execution time: 10:28:20.084
 Average execution time: 01:02:50.008
@@ -59,12 +59,13 @@ Reduce input records: 1578221
 Reduce output records: 423773
 Bytes Written:
 -- Memory --
-Physical memory snapshot: 177.167 GB
-Peak Map Physical memory: 236.012 MB
-Peak Reduce Physical memory: 186.014 MB
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
 -- Time --
 Total execution time: 10:46:49.590
 Average execution time: 01:04:40.959
+
 -------- base (2 reducer) -------- 
 -- Data --
 Bytes Read: 9068074
@@ -77,12 +78,13 @@ Reduce input records: 1578221
 Reduce output records: 423773
 Bytes Written:
 -- Memory --
-Physical memory snapshot: 177.453 GB
-Peak Map Physical memory: 235.272 MB
-Peak Reduce Physical memory: 173.474 MB
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
 -- Time --
 Total execution time: 10:46:56.540
 Average execution time: 01:04:41.654
+
 -------- external combiner (1 reducer) -------- 
 -- Data --
 Bytes Read: 9,068 MB
@@ -95,12 +97,13 @@ Reduce input records: 1187066
 Reduce output records: 423773
 Bytes Written: 6,041 MB
 -- Memory --
-Physical memory snapshot: 177.301 GB
-Peak Map Physical memory: 235.755 MB
-Peak Reduce Physical memory: 181.113 MB
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
 -- Time --
 Total execution time: 11:01:15.003
 Average execution time: 01:06:07.500
+
 -------- external combiner (2 reducer) -------- 
 -- Data --
 Bytes Read: 9,068 MB
@@ -113,27 +116,165 @@ Reduce input records: 1187066
 Reduce output records: 423773
 Bytes Written: 6,041 MB
 -- Memory --
-Physical memory snapshot: 177.545 GB
-Peak Map Physical memory: 235.542 MB
-Peak Reduce Physical memory: 166.516 MB
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
 -- Time --
 Total execution time: 10:47:33.615
 Average execution time: 01:04:45.361
+
 -------- inmap combining (1 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 16.469 MB
+Spilled Records: 2374132
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 423773
+Reduce input records: 1187066
+Reduce output records: 423773
+Bytes Written: 604136
+-- Memory --
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
+-- Time --
+Total execution time: 10:39:51.508
+Average execution time: 01:03:59.150
 
 -------- inmap combining (2 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 16.469 MB
+Spilled Records: 2374132
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 423773
+Reduce input records: 1187066
+Reduce output records: 423773
+Bytes Written=6041363
+-- Memory --
+Physical memory snapshot: 
+Peak Map Physical memory: 
+Peak Reduce Physical memory: 
+-- Time --
+Total execution time: 10:33:11.731
+Average execution time: 01:03:19.173
+
 ------------------------ STRIPES ------------------------ 
 -------- base (1 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 29.885 MB
+Spilled Records: 2769282
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 38189
+Reduce input records: 1384641
+Reduce output records: 38189
+Bytes Written: 4124217
+-- Memory --
+Physical memory snapshot: 150.433 GB
+Peak Map Physical memory: 200.238 MB
+Peak Reduce Physical memory: 179.175 MB
+-- Time --
+Total execution time: 11:06:00.385
+Average execution time: 01:03:19.173
 
 -------- base (2 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 29.885 MB
+Spilled Records: 2769282
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 38189
+Reduce input records: 1384641
+Reduce output records: 38189
+Bytes Written: 4124217
+-- Memory --
+Physical memory snapshot: 150.603 GB
+Peak Map Physical memory: 200.552 MB
+Peak Reduce Physical memory: 154.628 MB
+-- Time --
+Total execution time: 11:06:57.196
+Average execution time: 01:06:41.719
 
 -------- external combiner (1 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 29.885 MB
+Spilled Records: 870888
+Combine input records: 1384641
+Combine output records: 435444
+Reduce input groups: 38189
+Reduce input records: 435444
+Reduce output records: 38189
+Bytes Written: 4124217
+-- Memory --
+Physical memory snapshot: 200.498 MB
+Peak Map Physical memory: 153.218 MB
+Peak Reduce Physical memory: 150.541 GB
+-- Time --
+Total execution time: 11:11:53.732
+Average execution time: 01:07:11.373
 
 -------- external combiner (2 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 29.885 MB
+Spilled Records: 870888
+Combine input records: 1384641
+Combine output records: 435444
+Reduce input groups: 38189
+Reduce input records: 435444
+Reduce output records: 38189
+Bytes Written: 4124217
+-- Memory --
+Physical memory snapshot: 200.344 MB
+Peak Map Physical memory: 149.071 MB
+Peak Reduce Physical memory: 150.743 GB
+-- Time --
+Total execution time: 11:02:24.868
+Average execution time: 01:06:14.486
 
 -------- inmap combining (1 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 17.523 MB
+Spilled Records: 870888
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 38189
+Reduce input records: 435444
+Reduce output records: 38189
+Bytes Written: 4124217
+-- Memory --
+Physical memory snapshot: 150.889 GB
+Peak Map Physical memory: 200.880 MB
+Peak Reduce Physical memory: 151.694 MB
+-- Time --
+Total execution time: 10:47:48.862
+Average execution time: 01:04:46.886
 
 -------- inmap combining (2 reducer) -------- 
+-- Data --
+Bytes Read: 9068074
+Map output bytes: 17.523 MB
+Spilled Records: 870888
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 38189
+Reduce input records: 435444
+Reduce output records: 38189
+Bytes Written: 4124217
+-- Memory --
+Physical memory snapshot: 151.005 GB
+Peak Map Physical memory: 200.579 MB
+Peak Reduce Physical memory: 140.673 MB
+-- Time --
+Total execution time: 11:00:37.216
+Average execution time: 01:06:03.721
 ------------------------------------  N-GRAM (3) ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
@@ -164,30 +305,53 @@ Average execution time: 01:04:45.361
 ------------------------------------  N-GRAM (5) ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
+
 -------- base (2 reducer) -------- 
+
 -------- external combiner (1 reducer) -------- 
+
 -------- external combiner (2 reducer) -------- 
+
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 
+
 ------------------------ STRIPES ------------------------ 
 -------- base (1 reducer) -------- 
+
 -------- base (2 reducer) -------- 
--------- external combiner (1 reducer) -------- 
+
+-------- external combiner (1 reducer) --------
+ 
 -------- external combiner (2 reducer) -------- 
+
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 
+
 ------------------------------------  N-GRAM (10) ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
+
 -------- base (2 reducer) -------- 
+
 -------- external combiner (1 reducer) -------- 
+
 -------- external combiner (2 reducer) -------- 
+
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 
+
 ------------------------ STRIPES ------------------------ 
 -------- base (1 reducer) -------- 
+
 -------- base (2 reducer) -------- 
+
 -------- external combiner (1 reducer) -------- 
+
 -------- external combiner (2 reducer) -------- 
+
 -------- inmap combining (1 reducer) -------- 
+
 -------- inmap combining (2 reducer) -------- 

@@ -1,0 +1,223 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 03-08-2025 21:02:04
+Job Name: CoOccurrencePairsInMap_run_0_red_1
+Job ID: job_1754170859441_0021
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0021/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_0
+Num Reducers: 1
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:05:21.070
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 03-08-2025 22:07:57
+Job Name: CoOccurrencePairsInMap_run_1_red_1
+Job ID: job_1754170859441_0022
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0022/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_1
+Num Reducers: 1
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:05:52.586
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 03-08-2025 23:10:59
+Job Name: CoOccurrencePairsInMap_run_2_red_1
+Job ID: job_1754170859441_0023
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0023/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_2
+Num Reducers: 1
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:03:02.835
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 04-08-2025 00:15:24
+Job Name: CoOccurrencePairsInMap_run_3_red_1
+Job ID: job_1754170859441_0024
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0024/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_3
+Num Reducers: 1
+Run Attempt: 3
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:04:24.458
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 04-08-2025 01:21:03
+Job Name: CoOccurrencePairsInMap_run_4_red_1
+Job ID: job_1754170859441_0025
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0025/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_4
+Num Reducers: 1
+Run Attempt: 4
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:05:39.110
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 04-08-2025 02:25:24
+Job Name: CoOccurrencePairsInMap_run_5_red_1
+Job ID: job_1754170859441_0026
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0026/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_5
+Num Reducers: 1
+Run Attempt: 5
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:04:21.186
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 04-08-2025 03:31:52
+Job Name: CoOccurrencePairsInMap_run_6_red_1
+Job ID: job_1754170859441_0027
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0027/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_6
+Num Reducers: 1
+Run Attempt: 6
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:06:27.411
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 04-08-2025 04:34:21
+Job Name: CoOccurrencePairsInMap_run_7_red_1
+Job ID: job_1754170859441_0028
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0028/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_7
+Num Reducers: 1
+Run Attempt: 7
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:02:28.715
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 04-08-2025 05:35:26
+Job Name: CoOccurrencePairsInMap_run_8_red_1
+Job ID: job_1754170859441_0029
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0029/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_8
+Num Reducers: 1
+Run Attempt: 8
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:01:05.251
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 04-08-2025 06:36:35
+Job Name: CoOccurrencePairsInMap_run_9_red_1
+Job ID: job_1754170859441_0030
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754170859441_0030/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/co_occurrence_count/pairs/inmap_combiner/1_reducer/output_run_9
+Num Reducers: 1
+Run Attempt: 9
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:01:08.886
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for CoOccurrencePairsInMap ===
+Run:
+Requested run: 10
+Successfull run: 10
+Total attempt run: 10
+Failed run: 0
+Time:
+Total execution time: 10:39:51.508
+Average execution time: 01:03:59.150
+=== Averages over 10 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 16.469 MB
+Avg Spilled Records: 2374132
+Avg Combine Input Records: 0
+Avg Combine Output Records: 0
+Reduce Input Groups: 423773
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+-- Memory --
+Avg Physical Memory Snapshot: 177.302 GB
+------------------------------------------
