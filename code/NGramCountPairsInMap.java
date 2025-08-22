@@ -82,7 +82,7 @@ public class NGramCountPairsInMap
                 if (errorWord)   // control check for the key
                     continue;                   // go to next iteration
 
-                wordCountMap.put(wordsKey, wordCountMap.getOrDefault(wordsKey, 0) + 1); // set or update the value per the current word
+                wordCountMap.put(wordsKey.toString(), wordCountMap.getOrDefault(wordsKey.toString(), 0) + 1); // set or update the value per the current word
             }
 
             if (isMemoryThresholdExceeded())    // check the used memory
