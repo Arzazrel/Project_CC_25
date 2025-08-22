@@ -1,0 +1,89 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 15-08-2025 23:17:07
+Job Name: NGramCountPairs_run_0_w3_comb_true_red_2
+Job ID: job_1755208303103_0021
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755208303103_0021/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/ext_combiner/2_reducer/output_run_0
+Window Size: 3
+Use Combiner: true
+Num Reducers: 2
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1289300
+Reduce Output Records: 920696
+Spilled Records: 2578600
+Application time: 01:03:41.943
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 16-08-2025 00:21:40
+Job Name: NGramCountPairs_run_1_w3_comb_true_red_2
+Job ID: job_1755208303103_0022
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755208303103_0022/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/ext_combiner/2_reducer/output_run_1
+Window Size: 3
+Use Combiner: true
+Num Reducers: 2
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1289300
+Reduce Output Records: 920696
+Spilled Records: 2578600
+Application time: 01:04:33.123
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 16-08-2025 01:26:12
+Job Name: NGramCountPairs_run_2_w3_comb_true_red_2
+Job ID: job_1755208303103_0023
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755208303103_0023/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/ext_combiner/2_reducer/output_run_2
+Window Size: 3
+Use Combiner: true
+Num Reducers: 2
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1289300
+Reduce Output Records: 920696
+Spilled Records: 2578600
+Application time: 01:04:31.853
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for NGramCountPairs ===
+Run:
+Requested run: 3
+Successfull run: 3
+Total attempt run: 3
+Failed run: 0
+Time:
+Total execution time: 03:12:46.919
+Average execution time: 01:04:15.639
+=== Averages over 3 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 26.195 MB
+Avg Spilled Records: 2578600
+Avg Combine Input Records: 1425024
+Avg Combine Output Records: 1289300
+Reduce Input Groups: 920696
+Reduce Input Records: 1289300
+Reduce Output Records: 920696
+-- Memory --
+Avg Physical Memory Snapshot: 150.598 GB
+------------------------------------------

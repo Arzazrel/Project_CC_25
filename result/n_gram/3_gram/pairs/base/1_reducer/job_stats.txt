@@ -1,0 +1,243 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 08:00:50
+Job Name: NGramCountPairs_run_0_w3_comb_false_red_1
+Job ID: job_1754727455827_0041
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0041/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_0
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:07:41.983
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 09:06:58
+Job Name: NGramCountPairs_run_1_w3_comb_false_red_1
+Job ID: job_1754727455827_0042
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0042/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_1
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:06:07.848
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 10:11:02
+Job Name: NGramCountPairs_run_2_w3_comb_false_red_1
+Job ID: job_1754727455827_0043
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0043/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_2
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:04:04.374
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 11:13:42
+Job Name: NGramCountPairs_run_3_w3_comb_false_red_1
+Job ID: job_1754727455827_0044
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0044/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_3
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 3
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:02:39.639
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 12:16:08
+Job Name: NGramCountPairs_run_4_w3_comb_false_red_1
+Job ID: job_1754727455827_0045
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0045/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_4
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 4
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:02:26.296
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 13:20:38
+Job Name: NGramCountPairs_run_5_w3_comb_false_red_1
+Job ID: job_1754727455827_0046
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0046/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_5
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 5
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:04:29.915
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 14:27:16
+Job Name: NGramCountPairs_run_6_w3_comb_false_red_1
+Job ID: job_1754727455827_0047
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0047/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_6
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 6
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:06:37.974
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 15:34:01
+Job Name: NGramCountPairs_run_7_w3_comb_false_red_1
+Job ID: job_1754727455827_0048
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0048/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_7
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 7
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:06:44.580
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 16:39:29
+Job Name: NGramCountPairs_run_8_w3_comb_false_red_1
+Job ID: job_1754727455827_0049
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0049/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_8
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 8
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:05:27.624
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 11-08-2025 17:42:47
+Job Name: NGramCountPairs_run_9_w3_comb_false_red_1
+Job ID: job_1754727455827_0050
+Tracking URL: http://10.1.1.31:8088/proxy/application_1754727455827_0050/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/pairs/base/1_reducer/output_run_9
+Window Size: 3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 9
+Data:
+Map Input Records: 156215
+Map Output Records: 1425024
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+Spilled Records: 2850048
+Application time: 01:03:18.190
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for NGramCountPairs ===
+Run:
+Requested run: 10
+Successfull run: 10
+Total attempt run: 10
+Failed run: 0
+Time:
+Total execution time: 10:49:38.423
+Average execution time: 01:04:57.842
+=== Averages over 10 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 26.195 MB
+Avg Spilled Records: 2850048
+Avg Combine Input Records: 0
+Avg Combine Output Records: 0
+Reduce Input Groups: 920696
+Reduce Input Records: 1425024
+Reduce Output Records: 920696
+-- Memory --
+Avg Physical Memory Snapshot: 150.347 GB
+------------------------------------------
