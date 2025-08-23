@@ -89,7 +89,7 @@ public class NGramStripesInMap
 
                 // update the value for the n-gram occurrence
                 MapWritable stripe = wordSeenMap.get(w1);       // get stripe for the current word
-                Text neighbor = new Text(wordsKey);             // neighbours of the current word (word[i+1],...,word[i+w-1])
+                Text neighbor = new Text(wordsKey.toString());  // neighbours of the current word (word[i+1],...,word[i+w-1])
 
                 if (stripe.containsKey(neighbor))       // neighbor already seen, value must be updated
                 {
