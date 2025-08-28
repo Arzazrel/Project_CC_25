@@ -46,7 +46,6 @@ public class NGramStripesInMap
             window = conf.getInt("window",2);                   // get the configuration to contain the N of N-Gram (default value is 2)
             wordSeenMap = new HashMap<>();                      // set the hash map
         }
-
         // map function
         protected void map(final LongWritable key,final Text value,final Context context)
                 throws IOException, InterruptedException {
@@ -98,15 +97,10 @@ public class NGramStripesInMap
                     stripe.put(neighbor, new IntWritable(count + 1));               // update occurrence
                 }
                 else                                    // new neighbor
-                {
                     stripe.put(neighbor, new IntWritable(1));
-                }
             }
-
             if (isMemoryThresholdExceeded())    // check the used memory
-            {
                 flush(context);     // emit and flush memory
-            }
         }
 
         // to close the data structures used fo in mapping
@@ -140,58 +134,7 @@ public class NGramStripesInMap
         }
         // ---------------------- end: utility functions for in-combining ----------------------
     }
-
-    /**
-     * Combiner class to implement the reduce logic for the CoOccurrence count (vers. stripes)
-     * A purpose-built combiner is created and the reducer is not used because otherwise the combiner's output would not
-     * be in the same format as the reducer's input.
-     * This is because the reducer outputs (text, text) pairs instead of (text, MapWritable) for greater readability.
-     * To maintain the MapWritable's text transformation in the reducer, a combiner must be created that implements the
-     * same logic as the reducer but that does not perform this transformation and outputs (Text, MapWritable) pairs.
-     */
-    public static class CoOccurrenceCombiner extends Reducer<Text, MapWritable, Text, MapWritable> {
-        protected void reduce(Text key, Iterable<MapWritable> values, Context context)
-                throws IOException, InterruptedException {
-            MapWritable combinedStripe = new MapWritable(); // define aggregate map for
-
-            for (MapWritable map : values)          // for each stripes associated to a word
-            {
-                for (Writable k : map.keySet())     // for each neighbour in the stripe
-                {
-                    IntWritable count = (IntWritable) map.get(k);               // get local occurrence
-                    IntWritable existing = (IntWritable) combinedStripe.get(k); // get total occurrence
-
-                    if (existing != null)       // this pair of words has been found before
-                    {
-                        int updatedCount = existing.get() + count.get();        // create updated count
-                        combinedStripe.put(k, new IntWritable(updatedCount));   // update total occurrence
-                    } else                      // this pair of words has not been found before
-                        combinedStripe.put(k, new IntWritable(count.get()));    // set (first time) the total occurrence
-                }
-            }
-            
-            context.write(key, new Text(mapWritableToString(combinedStripe)));  // emit word and aggregate stripe associated
-        }
-
-        // utility function to format stripes into a readable string
-        public static String mapWritableToString(MapWritable map)
-        {
-            StringBuilder sb = new StringBuilder();     // the builder for the output string
-
-            for (Map.Entry<Writable, Writable> entry : map.entrySet())      // get all the word and occurrence
-            {
-                Text key = (Text) entry.getKey();                           // get the neighbour
-                IntWritable value = (IntWritable) entry.getValue();         // get the occurrence
-                sb.append(key.toString()).append(":").append(value.get()).append(", "); // format the string
-            }
-
-            if (sb.length() > 2)
-                sb.setLength(sb.length() - 2);          // removes the last comma and space
-
-            return sb.toString();                       // return the formatted string
-        }
-    }
-
+    
     /**
      * Reducer class to implement the reduce logic for the CoOccurrence count (vers. stripes)
      */

@@ -43,7 +43,7 @@ public class CoOccurrenceStripesInMap
         protected void setup(Context context) throws IOException, InterruptedException {
             wordSeenMap = new HashMap<>();          // set the hash map
         }
-
+        
         // map function
         protected void map(final LongWritable key,final Text value,final Context context)
                 throws IOException, InterruptedException {
@@ -64,10 +64,8 @@ public class CoOccurrenceStripesInMap
                 String w2 = words[i + 1];                       // take the next word
                 if (w1.isEmpty() || w2.isEmpty())               // control check for the key
                     continue;
-
                 if (!wordSeenMap.containsKey(w1))   // check if the current word has it already been seen or not
                     wordSeenMap.put(w1, new MapWritable());     // set the stripes for the new word
-
                 // update the value for the co-occurrence
                 MapWritable stripe = wordSeenMap.get(w1);       // get stripe for the current word
                 Text neighbor = new Text(w2);                   // neighbour of the current word
@@ -83,13 +81,11 @@ public class CoOccurrenceStripesInMap
                     stripe.put(neighbor, new IntWritable(1));
                 }
             }
-
             if (isMemoryThresholdExceeded())    // check the used memory
             {
                 flush(context);     // emit and flush memory
             }
         }
-
         // to close the data structures used fo in mapping
         protected void cleanup(Context context) throws IOException, InterruptedException {
             flush(context);         // emit and flush memory
