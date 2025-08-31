@@ -236,5 +236,3 @@ Job 2 completed successfully in 01:05:13.966
 	File Output Format Counters 
 		Bytes Written=12818876
 Job 3 completed successfully in 01:05:28.949
-
-
