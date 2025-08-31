@@ -1,0 +1,233 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 21:44:16
+Job Name: NGramStripes_run_0_w3_comb_false_red_1
+Job ID: job_1755842800610_0034
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0034/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_0
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:04:17.126
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 22:48:12
+Job Name: NGramStripes_run_1_w3_comb_false_red_1
+Job ID: job_1755842800610_0035
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0035/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_1
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:03:55.882
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 23:52:39
+Job Name: NGramStripes_run_2_w3_comb_false_red_1
+Job ID: job_1755842800610_0036
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0036/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_2
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:04:27.228
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 00:59:51
+Job Name: NGramStripes_run_3_w3_comb_false_red_1
+Job ID: job_1755842800610_0037
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0037/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_3
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 3
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:07:11.036
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 02:06:29
+Job Name: NGramStripes_run_4_w3_comb_false_red_1
+Job ID: job_1755842800610_0038
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0038/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_4
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 4
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:06:38.719
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 03:12:46
+Job Name: NGramStripes_run_5_w3_comb_false_red_1
+Job ID: job_1755842800610_0039
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0039/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_5
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 5
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:06:16.240
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 04:17:32
+Job Name: NGramStripes_run_6_w3_comb_false_red_1
+Job ID: job_1755842800610_0040
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0040/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_6
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 6
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:04:45.962
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 05:22:28
+Job Name: NGramStripes_run_7_w3_comb_false_red_1
+Job ID: job_1755842800610_0041
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0041/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_7
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 7
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:04:56.651
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 06:27:36
+Job Name: NGramStripes_run_8_w3_comb_false_red_1
+Job ID: job_1755842800610_0042
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0042/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_8
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 8
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:05:07.856
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 07:32:17
+Job Name: NGramStripes_run_9_w3_comb_false_red_1
+Job ID: job_1755842800610_0043
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0043/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/1_reducer/output_run_9
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 9
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:04:40.775
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for NGramStripes ===
+Run:
+Requested run: 10
+Successfull run: 10
+Total attempt run: 10
+Failed run: 0
+Time:
+Total execution time: 10:52:17.475
+Average execution time: 01:05:13.747
+=== Averages over 10 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 34.028 MB
+Avg Spilled Records: 2503390
+Avg Combine Input Records: 0
+Avg Combine Output Records: 0
+Reduce Input Groups: 35786
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+-- Memory --
+Avg Physical Memory Snapshot: 150.460 GB
+------------------------------------------

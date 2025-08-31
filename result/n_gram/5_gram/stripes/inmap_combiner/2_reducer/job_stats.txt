@@ -1,0 +1,86 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 29-08-2025 06:04:05
+Job Name: NGramStripesInMap_run_0_w5_comb_false_red_1
+Job ID: job_1756287687983_0035
+Tracking URL: http://10.1.1.31:8088/proxy/application_1756287687983_0035/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/5_gram/stripes/inmap_combiner/2_reducer/output_run_0
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 319602
+Reduce Input Records: 319602
+Reduce Output Records: 30774
+Spilled Records: 639204
+Application time: 01:04:18.287
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 29-08-2025 07:10:20
+Job Name: NGramStripesInMap_run_1_w5_comb_false_red_1
+Job ID: job_1756287687983_0036
+Tracking URL: http://10.1.1.31:8088/proxy/application_1756287687983_0036/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/5_gram/stripes/inmap_combiner/2_reducer/output_run_1
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 319602
+Reduce Input Records: 319602
+Reduce Output Records: 30774
+Spilled Records: 639204
+Application time: 01:06:14.469
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 29-08-2025 08:14:28
+Job Name: NGramStripesInMap_run_2_w5_comb_false_red_1
+Job ID: job_1756287687983_0037
+Tracking URL: http://10.1.1.31:8088/proxy/application_1756287687983_0037/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/5_gram/stripes/inmap_combiner/2_reducer/output_run_2
+Use Combiner: false
+Num Reducers: 1
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 319602
+Reduce Input Records: 319602
+Reduce Output Records: 30774
+Spilled Records: 639204
+Application time: 01:04:08.122
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for NGramStripesInMap ===
+Run:
+Requested run: 3
+Successfull run: 3
+Total attempt run: 3
+Failed run: 0
+Time:
+Total execution time: 03:14:40.878
+Average execution time: 01:04:53.626
+=== Averages over 3 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 30.898 MB
+Avg Spilled Records: 639204
+Avg Combine Input Records: 0
+Avg Combine Output Records: 0
+Reduce Input Groups: 30774
+Reduce Input Records: 319602
+Reduce Output Records: 30774
+-- Memory --
+Avg Physical Memory Snapshot: 151.132 GB
+------------------------------------------

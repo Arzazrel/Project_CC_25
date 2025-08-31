@@ -1,0 +1,86 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 10:00:13
+Job Name: CoOccurrencePairs_run_0_comb_false_red_2
+Job ID: job_1755842800610_0044
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0044/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_0
+Use Combiner: false
+Num Reducers: 2
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 1578221
+Reduce Input Records: 1578221
+Reduce Output Records: 423773
+Spilled Records: 3156442
+Application time: 01:04:06.680
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 11:04:36
+Job Name: CoOccurrencePairs_run_1_comb_false_red_2
+Job ID: job_1755842800610_0045
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0045/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_1
+Use Combiner: false
+Num Reducers: 2
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 1578221
+Reduce Input Records: 1578221
+Reduce Output Records: 423773
+Spilled Records: 3156442
+Application time: 01:04:22.820
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 24-08-2025 12:08:10
+Job Name: CoOccurrencePairs_run_2_comb_false_red_2
+Job ID: job_1755842800610_0046
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0046/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_2
+Use Combiner: false
+Num Reducers: 2
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 1578221
+Reduce Input Records: 1578221
+Reduce Output Records: 423773
+Spilled Records: 3156442
+Application time: 01:03:34.091
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for CoOccurrencePairs ===
+Run:
+Requested run: 3
+Successfull run: 3
+Total attempt run: 3
+Failed run: 0
+Time:
+Total execution time: 03:12:03.591
+Average execution time: 01:04:01.197
+=== Averages over 3 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 21.415 MB
+Avg Spilled Records: 3156442
+Avg Combine Input Records: 0
+Avg Combine Output Records: 0
+Reduce Input Groups: 423773
+Reduce Input Records: 1578221
+Reduce Output Records: 423773
+-- Memory --
+Avg Physical Memory Snapshot: 150.484 GB
+------------------------------------------

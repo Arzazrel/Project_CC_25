@@ -1,0 +1,123 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 12:16:57
+Job Name: WordCountInMap_run_0_red_2
+Job ID: job_1755842800610_0026
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0026/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_0
+Num Reducers: 2
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 496829
+Reduce Input Records: 496829
+Reduce Output Records: 41166
+Spilled Records: 993658
+Application time: 01:05:22.438
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 13:20:55
+Job Name: WordCountInMap_run_1_red_2
+Job ID: job_1755842800610_0027
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0027/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_1
+Num Reducers: 2
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 496829
+Reduce Input Records: 496829
+Reduce Output Records: 41166
+Spilled Records: 993658
+Application time: 01:03:57.960
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 14:23:12
+Job Name: WordCountInMap_run_2_red_2
+Job ID: job_1755842800610_0028
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0028/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_2
+Num Reducers: 2
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 496829
+Reduce Input Records: 496829
+Reduce Output Records: 41166
+Spilled Records: 993658
+Application time: 01:02:16.952
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 15:25:23
+Job Name: WordCountInMap_run_3_red_2
+Job ID: job_1755842800610_0029
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0029/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_3
+Num Reducers: 2
+Run Attempt: 3
+Data:
+Map Input Records: 156215
+Map Output Records: 496829
+Reduce Input Records: 496829
+Reduce Output Records: 41166
+Spilled Records: 993658
+Application time: 01:02:10.258
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 23-08-2025 16:28:02
+Job Name: WordCountInMap_run_4_red_2
+Job ID: job_1755842800610_0030
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0030/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_4
+Num Reducers: 2
+Run Attempt: 4
+Data:
+Map Input Records: 156215
+Map Output Records: 496829
+Reduce Input Records: 496829
+Reduce Output Records: 41166
+Spilled Records: 993658
+Application time: 01:02:38.894
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for WordCountInMap ===
+Run:
+Requested run: 5
+Successfull run: 5
+Total attempt run: 5
+Failed run: 0
+Time:
+Total execution time: 05:16:26.502
+Average execution time: 01:03:17.300
+=== Averages over 5 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 4.995 MB
+Avg Spilled Records: 993658
+Avg Combine Input Records: 0
+Avg Combine Output Records: 0
+Reduce Input Groups: 41166
+Reduce Input Records: 496829
+Reduce Output Records: 41166
+-- Memory --
+Avg Physical Memory Snapshot: 150.563 GB
+------------------------------------------

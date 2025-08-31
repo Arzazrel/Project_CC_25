@@ -1,35 +1,103 @@
 Document containing all the important values that will be used in the documentation for each method and for all tested configurations.
 ------------------------------------  WORD COUNT ------------------------------------  
 -------- base (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 15.181 MB
+Spilled Records: 3468598
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 41166
+Reduce input records: 1734299
+Reduce output records: 41166
+Bytes Written: 441,459 kB
+-- Memory --
+Physical memory snapshot: 150.286 GB
+Peak Map Physical memory: 200,015 MB
+Peak Reduce Physical memory: 151,730 MB
+-- Time --
+Total execution time: 
+Average execution time: 01:04:17.899
 
 -------- base (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 15.181 MB
+Spilled Records: 3468598
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 41166
+Reduce input records: 1734299
+Reduce output records: 41166
+Bytes Written: 441,459 kB
+-- Memory --
+Physical memory snapshot: 150.442 GB
+Peak Map Physical memory: 199,865 MB
+Peak Reduce Physical memory: 142,897 MB
+-- Time --
+Total execution time: 
+Average execution time: 01:04:12.973
 
 -------- external combiner (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 15.181 MB
+Spilled Records: 993658
+Combine input records: 1734299
+Combine output records: 496829
+Reduce input groups: 41166
+Reduce input records: 496829
+Reduce output records: 41166
+Bytes Written: 441,459 kB
+-- Memory --
+Physical memory snapshot: 150.372 GB
+Peak Map Physical memory: 200,914 MB
+Peak Reduce Physical memory: 133,870 MB
+-- Time --
+Total execution time: 
+Average execution time: 01:04:56.218
 
 -------- external combiner (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 15.181 MB
+Spilled Records: 993658
+Combine input records: 1734299
+Combine output records: 496829
+Reduce input groups: 41166
+Reduce input records: 496829
+Reduce output records: 41166
+Bytes Written: 441,459 kB
+-- Memory --
+Physical memory snapshot: 150.512 GB
+Peak Map Physical memory: 199,973 MB
+Peak Reduce Physical memory: 131,574 MB
+-- Time --
+Total execution time: 
+Average execution time: 01:05:19.620
 
 -------- inmap combining (1 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
-Map output bytes: 496829
+Bytes Read: 9,068 MB
+Map output bytes: 0,473 MB
 Spilled Records: 993658
 Combine input records: 0
 Combine output records: 0
 Reduce input groups: 41166
 Reduce input records: 496829
 Reduce output records: 41166
-Bytes Written:
+Bytes Written: 441,459 kB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.445 GB
+Peak Map Physical memory: 200,387 MB
+Peak Reduce Physical memory: 133,963 MB
 -- Time --
-Total execution time: 10:10:12.480
-Average execution time: 01:01:01.248
+Total execution time: 
+Average execution time: 01:04:41.552
 
 -------- inmap combining (2 reducer) --------
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 5237197
 Spilled Records: 993658
 Combine input records: 0
@@ -37,19 +105,19 @@ Combine output records: 0
 Reduce input groups: 41166
 Reduce input records: 496829
 Reduce output records: 41166
-Bytes Written:
+Bytes Written: 441,459 kB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.563 GB
+Peak Map Physical memory: 200,342 MB
+Peak Reduce Physical memory: 133,073 MB
 -- Time --
-Total execution time: 10:28:20.084
-Average execution time: 01:02:50.008
+Total execution time: 
+Average execution time: 01:03:17.300
 ------------------------------------  CO OCCURRENCE ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 21.415 MB
 Spilled Records: 3156442
 Combine input records: 0
@@ -57,18 +125,18 @@ Combine output records: 0
 Reduce input groups: 423773
 Reduce input records: 1578221
 Reduce output records: 423773
-Bytes Written:
+Bytes Written: 6,041 MB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.358 GB
+Peak Map Physical memory: 200,445 MB
+Peak Reduce Physical memory: 161,020 MB
 -- Time --
-Total execution time: 10:46:49.590
-Average execution time: 01:04:40.959
+Total execution time: 
+Average execution time: 01:04:19.845
 
 -------- base (2 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 21.415 MB
 Spilled Records: 3156442
 Combine input records: 0
@@ -76,14 +144,14 @@ Combine output records: 0
 Reduce input groups: 423773
 Reduce input records: 1578221
 Reduce output records: 423773
-Bytes Written:
+Bytes Written: 6,041 MB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.484 GB
+Peak Map Physical memory: 199,730 MB
+Peak Reduce Physical memory: 141,809 MB
 -- Time --
-Total execution time: 10:46:56.540
-Average execution time: 01:04:41.654
+Total execution time: 
+Average execution time: 01:04:01.197
 
 -------- external combiner (1 reducer) -------- 
 -- Data --
@@ -97,12 +165,12 @@ Reduce input records: 1187066
 Reduce output records: 423773
 Bytes Written: 6,041 MB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.454 GB
+Peak Map Physical memory: 200,948 MB
+Peak Reduce Physical memory: 152,262 MB
 -- Time --
-Total execution time: 11:01:15.003
-Average execution time: 01:06:07.500
+Total execution time:
+Average execution time: 01:05:26.640
 
 -------- external combiner (2 reducer) -------- 
 -- Data --
@@ -116,16 +184,16 @@ Reduce input records: 1187066
 Reduce output records: 423773
 Bytes Written: 6,041 MB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.576 GB
+Peak Map Physical memory: 200,083 MB
+Peak Reduce Physical memory: 139,397 M
 -- Time --
-Total execution time: 10:47:33.615
-Average execution time: 01:04:45.361
+Total execution time: 
+Average execution time: 01:04:20.096
 
 -------- inmap combining (1 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 16.469 MB
 Spilled Records: 2374132
 Combine input records: 0
@@ -133,18 +201,18 @@ Combine output records: 0
 Reduce input groups: 423773
 Reduce input records: 1187066
 Reduce output records: 423773
-Bytes Written: 604136
+Bytes Written: 6,041 MB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.557 GB
+Peak Map Physical memory: 200,552 MB
+Peak Reduce Physical memory: 149,743 MB
 -- Time --
-Total execution time: 10:39:51.508
-Average execution time: 01:03:59.150
+Total execution time: 
+Average execution time: 01:03:19.778
 
 -------- inmap combining (2 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 16.469 MB
 Spilled Records: 2374132
 Combine input records: 0
@@ -152,19 +220,19 @@ Combine output records: 0
 Reduce input groups: 423773
 Reduce input records: 1187066
 Reduce output records: 423773
-Bytes Written=6041363
+Bytes Written= 6,041 MB
 -- Memory --
-Physical memory snapshot: 
-Peak Map Physical memory: 
-Peak Reduce Physical memory: 
+Physical memory snapshot: 150.711 GB
+Peak Map Physical memory: 200,344 MB
+Peak Reduce Physical memory: 138,036 MB
 -- Time --
-Total execution time: 10:33:11.731
-Average execution time: 01:03:19.173
+Total execution time: 
+Average execution time: 01:04:21.117
 
 ------------------------ STRIPES ------------------------ 
 -------- base (1 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 29.885 MB
 Spilled Records: 2769282
 Combine input records: 0
@@ -172,18 +240,18 @@ Combine output records: 0
 Reduce input groups: 38189
 Reduce input records: 1384641
 Reduce output records: 38189
-Bytes Written: 4124217
+Bytes Written: 4,124 MB
 -- Memory --
 Physical memory snapshot: 150.433 GB
-Peak Map Physical memory: 200.238 MB
-Peak Reduce Physical memory: 179.175 MB
+Peak Map Physical memory: 200,238 MB
+Peak Reduce Physical memory: 179,175 MB
 -- Time --
 Total execution time: 11:06:00.385
 Average execution time: 01:03:19.173
 
 -------- base (2 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 29.885 MB
 Spilled Records: 2769282
 Combine input records: 0
@@ -191,18 +259,18 @@ Combine output records: 0
 Reduce input groups: 38189
 Reduce input records: 1384641
 Reduce output records: 38189
-Bytes Written: 4124217
+Bytes Written: 4,124 MB
 -- Memory --
 Physical memory snapshot: 150.603 GB
-Peak Map Physical memory: 200.552 MB
-Peak Reduce Physical memory: 154.628 MB
+Peak Map Physical memory: 200,552 MB
+Peak Reduce Physical memory: 154,628 MB
 -- Time --
 Total execution time: 11:06:57.196
 Average execution time: 01:06:41.719
 
 -------- external combiner (1 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 29.885 MB
 Spilled Records: 870888
 Combine input records: 1384641
@@ -210,18 +278,18 @@ Combine output records: 435444
 Reduce input groups: 38189
 Reduce input records: 435444
 Reduce output records: 38189
-Bytes Written: 4124217
+Bytes Written: 4,124 MB
 -- Memory --
-Physical memory snapshot: 200.498 MB
-Peak Map Physical memory: 153.218 MB
-Peak Reduce Physical memory: 150.541 GB
+Physical memory snapshot: 150,541 GB
+Peak Map Physical memory: 200,498 MB
+Peak Reduce Physical memory: 153,218 MB
 -- Time --
 Total execution time: 11:11:53.732
 Average execution time: 01:07:11.373
 
 -------- external combiner (2 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 29.885 MB
 Spilled Records: 870888
 Combine input records: 1384641
@@ -229,18 +297,18 @@ Combine output records: 435444
 Reduce input groups: 38189
 Reduce input records: 435444
 Reduce output records: 38189
-Bytes Written: 4124217
+Bytes Written: 4,124 MB
 -- Memory --
-Physical memory snapshot: 200.344 MB
-Peak Map Physical memory: 149.071 MB
-Peak Reduce Physical memory: 150.743 GB
+Physical memory snapshot: 150.743 GB 
+Peak Map Physical memory: 200,344 MB
+Peak Reduce Physical memory: 149,071 MB
 -- Time --
 Total execution time: 11:02:24.868
 Average execution time: 01:06:14.486
 
 -------- inmap combining (1 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 17.523 MB
 Spilled Records: 870888
 Combine input records: 0
@@ -248,18 +316,18 @@ Combine output records: 0
 Reduce input groups: 38189
 Reduce input records: 435444
 Reduce output records: 38189
-Bytes Written: 4124217
+Bytes Written: 4,124 MB
 -- Memory --
 Physical memory snapshot: 150.889 GB
-Peak Map Physical memory: 200.880 MB
-Peak Reduce Physical memory: 151.694 MB
+Peak Map Physical memory: 200,880 MB
+Peak Reduce Physical memory: 151,694 MB
 -- Time --
 Total execution time: 10:47:48.862
 Average execution time: 01:04:46.886
 
 -------- inmap combining (2 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 17.523 MB
 Spilled Records: 870888
 Combine input records: 0
@@ -267,11 +335,11 @@ Combine output records: 0
 Reduce input groups: 38189
 Reduce input records: 435444
 Reduce output records: 38189
-Bytes Written: 4124217
+Bytes Written: 4,124 MB
 -- Memory --
 Physical memory snapshot: 151.005 GB
-Peak Map Physical memory: 200.579 MB
-Peak Reduce Physical memory: 140.673 MB
+Peak Map Physical memory: 200,579 MB
+Peak Reduce Physical memory: 140,673 MB
 -- Time --
 Total execution time: 11:00:37.216
 Average execution time: 01:06:03.721
@@ -279,7 +347,7 @@ Average execution time: 01:06:03.721
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 26.195 MB
 Spilled Records: 2850048
 Combine input records: 0
@@ -287,18 +355,18 @@ Combine output records: 0
 Reduce input groups: 920696
 Reduce input records: 1425024
 Reduce output records: 920696
-Bytes Written: 16608002
+Bytes Written: 16,608 MB
 -- Memory --
-Physical memory snapshot: 200.234 MB
-Peak Map Physical memory: 169.329 MB
-Peak Reduce Physical memory: 150.347 GB
+Physical memory snapshot: 150.347 GB
+Peak Map Physical memory: 200,234 MB
+Peak Reduce Physical memory: 169,329 MB
 -- Time --
 Total execution time: 10:49:38.423
 Average execution time: 01:04:57.842
 
 -------- base (2 reducer) -------- 
 -- Data --
-Bytes Read: 9068074
+Bytes Read: 9,068 MB
 Map output bytes: 26.195 MB
 Spilled Records: 2850048
 Combine input records: 0
@@ -306,25 +374,110 @@ Combine output records: 0
 Reduce input groups: 920696
 Reduce input records: 1425024
 Reduce output records: 920696
-Bytes Written: 16608002
+Bytes Written: 16,608 MB
 -- Memory --
-Physical memory snapshot: 199.864 MB
-Peak Map Physical memory: 149.211 MB
-Peak Reduce Physical memory: 150.483 GB
+Physical memory snapshot: 150.483 GB
+Peak Map Physical memory: 199,864 MB
+Peak Reduce Physical memory: 149,211 MB
 -- Time --
 Total execution time: 11:04:36.453
 Average execution time: 01:06:27.645
 
 -------- external combiner (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 26,195 MB
+Spilled Records: 2578600
+Combine input records: 1425024
+Combine output records: 1289300
+Reduce input groups: 920696
+Reduce input records: 1289300
+Reduce output records: 920696
+Bytes Written: 16,608 MB
+-- Memory --
+Physical memory snapshot: 150.482 GB
+Peak Map Physical memory: 200,768 MB
+Peak Reduce Physical memory: 162,977 MB
+-- Time --
+Total execution time: 11:04:46.507
+Average execution time: 01:06:28.650
 
 -------- external combiner (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 26.195 MB
+Spilled Records: 2578600
+Combine input records: 1425024
+Combine output records: 1289300
+Reduce input groups: 920696
+Reduce input records: 1289300
+Reduce output records: 920696
+Bytes Written: 16,608 MB
+-- Memory --
+Physical memory snapshot: 150.598 GB
+Peak Map Physical memory: 200,439 MB
+Peak Reduce Physical memory: 146,888 MB
+-- Time --
+Total execution time: 10:44:00.436
+Average execution time: 01:04:24.043
 
 -------- inmap combining (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 23.823 MB
+Spilled Records: 2578600
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 920696
+Reduce input records: 1289300
+Reduce output records: 920696
+Bytes Written: 16,608 MB
+-- Memory --
+Physical memory snapshot: 150.604 GB
+Peak Map Physical memory: 200,257 MB
+Peak Reduce Physical memory: 166,727 MB
+-- Time --
+Total execution time: 10:43:00.957
+Average execution time: 01:04:18.095
 
 -------- inmap combining (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 23.823 MB
+Spilled Records: 2578600
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 920696
+Reduce input records: 1289300
+Reduce output records: 920696
+Bytes Written: 16,608 MB
+-- Memory --
+Physical memory snapshot: 150.733 GB
+Peak Map Physical memory: 200,642 MB
+Peak Reduce Physical memory: 145,523 MB
+-- Time --
+Total execution time: 10:41:24.854
+Average execution time: 01:04:08.485
 
 ------------------------ STRIPES ------------------------ 
 -------- base (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 34,028 MB
+Spilled Records: 2503390
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 35786
+Reduce input records: 1251695
+Reduce output records: 35786
+Bytes Written: 12,818 MB
+-- Memory --
+Physical memory snapshot: 150.460 GB
+Peak Map Physical memory: 200,203 MB
+Peak Reduce Physical memory: 187,166 MB
+-- Time --
+Total execution time: 10:52:17.475
+Average execution time: 01:05:13.747
 
 -------- base (2 reducer) -------- 
 
@@ -339,12 +492,80 @@ Average execution time: 01:06:27.645
 ------------------------------------  N-GRAM (5) ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 31,618 MB
+Spilled Records: 2261402
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 1042327
+Reduce input records: 1130701
+Reduce output records: 1042327
+Bytes Written: 28,592 MB
+-- Memory --
+Physical memory snapshot: 150.373 GB
+Peak Map Physical memory: 200,249 MB
+Peak Reduce Physical memory: 180,464 MB
+-- Time --
+Total execution time: 10:38:19.731
+Average execution time: 01:03:49.973
 
 -------- base (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 31,618 MB
+Spilled Records: 2261402
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 1042327
+Reduce input records: 1130701
+Reduce output records: 1042327
+Bytes Written: 28,592 MB
+-- Memory --
+Physical memory snapshot: 150.505 GB
+Peak Map Physical memory: 199,883 MB
+Peak Reduce Physical memory: 151,922 MB
+-- Time --
+Total execution time: 10:31:42.625
+Average execution time: 01:03:10.262
 
 -------- external combiner (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 31,618 MB
+Spilled Records: 2192374
+Combine input records: 1130701
+Combine output records: 1096187
+Reduce input groups: 1042327
+Reduce input records: 1096187
+Reduce output records: 1042327
+Bytes Written: 28,592 MB
+-- Memory --
+Physical memory snapshot: 150.498 GB
+Peak Map Physical memory: 200,709 MB
+Peak Reduce Physical memory: 176,045 MB
+-- Time --
+Total execution time: 10:51:05.951
+Average execution time: 01:05:06.595
 
 -------- external combiner (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 31,618 MB
+Spilled Records: 2192374
+Combine input records: 1130701
+Combine output records: 1096187
+Reduce input groups: 1042327
+Reduce input records: 1096187
+Reduce output records: 1042327
+Bytes Written: 28,592 MB
+-- Memory --
+Physical memory snapshot: 150.587 GB
+Peak Map Physical memory: 200,211 MB
+Peak Reduce Physical memory: 151,505 MB
+-- Time --
+Total execution time: 10:38:27.294
+Average execution time: 01:03:50.729
 
 -------- inmap combining (1 reducer) -------- 
 
@@ -366,12 +587,80 @@ Average execution time: 01:06:27.645
 ------------------------------------  N-GRAM (10) ------------------------------------  
 ------------------------ PAIRS ------------------------ 
 -------- base (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 28,968 MB
+Spilled Records: 1117902
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 547221
+Reduce input records: 558951
+Reduce output records: 547221
+Bytes Written: 28,652 MB
+-- Memory --
+Physical memory snapshot: 150.411 GB
+Peak Map Physical memory: 200,271 MB
+Peak Reduce Physical memory: 170,819 MB
+-- Time --
+Total execution time: 10:29:46.102
+Average execution time: 01:02:58.610
 
 -------- base (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 28,968 MB
+Spilled Records: 1117902
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 547221
+Reduce input records: 558951
+Reduce output records: 547221
+Bytes Written: 28,652 MB
+-- Memory --
+Physical memory snapshot: 150.496 GB
+Peak Map Physical memory: 200,144 MB
+Peak Reduce Physical memory: 151,298 MB
+-- Time --
+Total execution time: 10:35:09.942
+Average execution time: 01:03:30.994
 
 -------- external combiner (1 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 28,968 MB
+Spilled Records: 1107920
+Combine input records: 558951
+Combine output records: 553960
+Reduce input groups: 547221
+Reduce input records: 553960
+Reduce output records: 547221
+Bytes Written: 28,652 MB
+-- Memory --
+Physical memory snapshot: 150.523 GB
+Peak Map Physical memory: 200,541 MB
+Peak Reduce Physical memory: 169,918 MB
+-- Time --
+Total execution time: 10:30:48.190
+Average execution time: 01:03:04.819
 
 -------- external combiner (2 reducer) -------- 
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 28,968 MB
+Spilled Records: 1107920
+Combine input records: 558951
+Combine output records: 553960
+Reduce input groups: 547221
+Reduce input records: 553960
+Reduce output records: 547221
+Bytes Written: 28,652 MB
+-- Memory --
+Physical memory snapshot: 150.544 GB
+Peak Map Physical memory: 200,270 MB
+Peak Reduce Physical memory: 150,730 MB
+-- Time --
+Total execution time: 10:32:46.308
+Average execution time: 01:03:16.630
 
 -------- inmap combining (1 reducer) -------- 
 

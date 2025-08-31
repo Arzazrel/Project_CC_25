@@ -1,0 +1,63 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 27-08-2025 06:25:05
+Job Name: NGramStripes_run_0_w3_comb_false_red_2
+Job ID: job_1756271650188_0001
+Tracking URL: http://10.1.1.31:8088/proxy/application_1756271650188_0001/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/2_reducer/output_run_0
+Use Combiner: false
+Num Reducers: 2
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:06:42.215
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 27-08-2025 07:30:19
+Job Name: NGramStripes_run_1_w3_comb_false_red_2
+Job ID: job_1756271650188_0002
+Tracking URL: http://10.1.1.31:8088/proxy/application_1756271650188_0002/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/2_reducer/output_run_1
+Use Combiner: false
+Num Reducers: 2
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:05:13.966
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 27-08-2025 08:35:48
+Job Name: NGramStripes_run_2_w3_comb_false_red_2
+Job ID: job_1756271650188_0003
+Tracking URL: http://10.1.1.31:8088/proxy/application_1756271650188_0003/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/project/n_gram/3_gram/stripes/base/2_reducer/output_run_2
+Use Combiner: false
+Num Reducers: 2
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 1251695
+Reduce Input Records: 1251695
+Reduce Output Records: 35786
+Spilled Records: 2503390
+Application time: 01:05:28.949
+------------------------------------------

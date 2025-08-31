@@ -1,0 +1,19 @@
+-- Data --
+Bytes Read: 9,068 MB
+Map output bytes: 28.968 MB
+Spilled Records: 1117902
+Combine input records: 0
+Combine output records: 0
+Reduce input groups: 547221
+Reduce input records: 558951
+Reduce output records: 547221
+Bytes Written: 28,652 MB
+
+-- Memory --
+Physical memory snapshot: 150.496 GB
+Peak Map Physical memory: 200.144 MB
+Peak Reduce Physical memory: 151.298 MB
+
+-- Time --
+Total execution time: 10:35:09.942
+Average execution time: 01:03:30.994

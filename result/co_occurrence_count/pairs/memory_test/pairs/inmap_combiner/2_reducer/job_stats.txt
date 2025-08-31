@@ -1,0 +1,83 @@
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 25-08-2025 11:47:13
+Job Name: CoOccurrencePairsInMap_run_0_red_2
+Job ID: job_1755842800610_0066
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0066/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_0
+Num Reducers: 2
+Run Attempt: 0
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:04:24.928
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 25-08-2025 12:51:34
+Job Name: CoOccurrencePairsInMap_run_1_red_2
+Job ID: job_1755842800610_0067
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0067/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_1
+Num Reducers: 2
+Run Attempt: 1
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:04:21.000
+------------------------------------------
+------------------------------------------
+=== Job Statistics ===
+Identifiers:
+Date: 25-08-2025 13:55:52
+Job Name: CoOccurrencePairsInMap_run_2_red_2
+Job ID: job_1755842800610_0068
+Tracking URL: http://10.1.1.31:8088/proxy/application_1755842800610_0068/
+Parameters:
+Input Path: /user/hadoop/input/project/snippets
+Output Path: /user/hadoop/output/test_wordcount/test/output_run_2
+Num Reducers: 2
+Run Attempt: 2
+Data:
+Map Input Records: 156215
+Map Output Records: 1187066
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+Spilled Records: 2374132
+Application time: 01:04:17.424
+------------------------------------------
+------------------------------------------
+=== Final Recap of Runs for CoOccurrencePairsInMap ===
+Run:
+Requested run: 3
+Successfull run: 3
+Total attempt run: 3
+Failed run: 0
+Time:
+Total execution time: 03:13:03.352
+Average execution time: 01:04:21.117
+=== Averages over 3 successful runs ===
+-- Data --
+Avg Bytes Read: 0.000 B
+Avg Map Output Bytes: 16.469 MB
+Avg Spilled Records: 2374132
+Avg Combine Input Records: 0
+Avg Combine Output Records: 0
+Reduce Input Groups: 423773
+Reduce Input Records: 1187066
+Reduce Output Records: 423773
+-- Memory --
+Avg Physical Memory Snapshot: 150.711 GB
+------------------------------------------
